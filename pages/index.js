@@ -1,11 +1,14 @@
+import React, { useState } from "react";
+import Homepage from "../components/Homepage";
 import Heading from "../components/Heading";
-import SubHeading from "../components/SubHeading";
 
 export default function Home() {
   return (
-    <main>
-      <Heading>🐬 Capstone Template 🐬</Heading>
-      <SubHeading>We dolphinitely love coding!</SubHeading>
-    </main>
+    <div>
+      <Heading />
+      <main>
+        <Homepage />
+      </main>
+    </div>
   );
 }
