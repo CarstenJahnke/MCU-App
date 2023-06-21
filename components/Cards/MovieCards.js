@@ -5,7 +5,7 @@ import {
   StyledMovieTitle,
   MovieCardsList,
 } from "../styling/MovieCardsStyling";
-import { apiKey } from "../../.api-key/api-key";
+import { apiKey } from "../../.api-key";
 import Image from "next/image";
 
 const fetcher = async (url) => {
