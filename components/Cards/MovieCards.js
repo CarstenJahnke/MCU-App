@@ -1,10 +1,11 @@
 import useSWR from "swr";
 import {
-  movieCardStyle,
-  movieImageStyle,
-  movieTitleStyle,
+  StyledMovieCard,
+  StyledMovieImage,
+  StyledMovieTitle,
 } from "../styling/MovieCardsStyling";
 import { apiKey } from "../../.api-key/api";
+import Image from "next/image";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -27,20 +28,23 @@ const MovieCards = () => {
   }
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <StyledMovieCard>
       {movies.map((movie) => (
-        <div key={movie.id} style={movieCardStyle}>
-          <img
-            src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
-            alt={movie.title}
-            style={movieImageStyle}
-          />
-          <h2 style={movieTitleStyle}>
+        <div key={movie.id}>
+          <StyledMovieImage key={movie.id}>
+            <Image
+              src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+              alt={movie.name}
+              width={200}
+              height={300}
+            />
+          </StyledMovieImage>
+          <StyledMovieTitle>
             {movie.title} ({new Date(movie.release_date).getFullYear()})
-          </h2>
+          </StyledMovieTitle>
         </div>
       ))}
-    </div>
+    </StyledMovieCard>
   );
 };
 
