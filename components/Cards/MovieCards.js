@@ -3,8 +3,9 @@ import {
   StyledMovieCard,
   StyledMovieImage,
   StyledMovieTitle,
+  MovieCardsList,
 } from "../styling/MovieCardsStyling";
-import { apiKey } from "../../.api-key/api";
+import { apiKey } from "../../.api-key/api-key";
 import Image from "next/image";
 
 const fetcher = async (url) => {
@@ -28,9 +29,9 @@ const MovieCards = () => {
   }
 
   return (
-    <StyledMovieCard>
+    <MovieCardsList>
       {movies.map((movie) => (
-        <div key={movie.id}>
+        <StyledMovieCard key={movie.id}>
           <StyledMovieImage key={movie.id}>
             <Image
               src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
@@ -42,9 +43,9 @@ const MovieCards = () => {
           <StyledMovieTitle>
             {movie.title} ({new Date(movie.release_date).getFullYear()})
           </StyledMovieTitle>
-        </div>
+        </StyledMovieCard>
       ))}
-    </StyledMovieCard>
+    </MovieCardsList>
   );
 };
 

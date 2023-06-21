@@ -8,8 +8,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "https",
         hostname: "image.tmdb.org",
-        path: "/t/p/w200/",
       },
     ],
   },
