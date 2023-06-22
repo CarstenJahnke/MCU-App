@@ -5,8 +5,8 @@ import {
   StyledMovieTitle,
   MovieCardsList,
 } from "../styling/MovieCardsStyling";
-import { apiKey } from "../../.api-key";
 import Image from "next/image";
+import { apikey } from "../../pages/_app";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -16,7 +16,7 @@ const fetcher = async (url) => {
 
 const MovieCards = () => {
   const { data: movies, error } = useSWR(
-    `https://api.themoviedb.org/3/list/1?api_key=${apiKey}`,
+    `https://api.themoviedb.org/3/list/1?api_key=${apikey}`,
     fetcher
   );
 
