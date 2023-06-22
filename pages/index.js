@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Homepage from "../components/Homepage";
-import Heading from "../components/Heading";
+import HeadingContainer from "../components/HeadingContainer";
 
 export default function Home() {
   return (
     <div>
-      <Heading />
+      <HeadingContainer />
       <main>
         <Homepage />
       </main>
