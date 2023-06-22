@@ -5,6 +5,7 @@ export default createGlobalStyle`
   *::before,
   *::after {
     box-sizing: border-box;
+    text-decoration: none;
   }
   body {
     background-color: darkgoldenrod;
