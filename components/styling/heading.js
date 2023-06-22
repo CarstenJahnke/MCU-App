@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HeadingStyling = styled.div`
+export const Heading = styled.div`
   background-image: linear-gradient(to bottom, #5a0000, #6b0804, #a02b00);
   color: #ffb833;
   font-size: 30px;
