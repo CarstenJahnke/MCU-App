@@ -1,4 +1,4 @@
-import MovieCards from "../Cards/MovieCards";
+import MovieCards from "../Cards";
 
 export default function Homepage() {
   return (

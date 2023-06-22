@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Heading from "./Heading";
+import Heading from "../Heading";
 
 const HeadingStyledContainer = styled.div`
   background-image: linear-gradient(to bottom, #5a0000, #6b0804, #a02b00);
