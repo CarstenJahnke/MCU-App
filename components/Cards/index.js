@@ -1,3 +1,4 @@
+import Link from "next/link";
 import useSWR from "swr";
 import {
   StyledMovieCard,
@@ -31,19 +32,21 @@ const MovieCards = () => {
   return (
     <MovieCardsList>
       {movies.map((movie) => (
-        <StyledMovieCard key={movie.id}>
-          <StyledMovieImage key={movie.id}>
-            <Image
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              alt={movie.name}
-              width={200}
-              height={300}
-            />
-          </StyledMovieImage>
-          <StyledMovieTitle>
-            {movie.title} ({new Date(movie.release_date).getFullYear()})
-          </StyledMovieTitle>
-        </StyledMovieCard>
+        <Link href={`/movies/${encodeURIComponent(movie.id)}`} key={movie.id}>
+          <StyledMovieCard>
+            <StyledMovieImage>
+              <Image
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                alt={movie.name}
+                width={200}
+                height={300}
+              />
+            </StyledMovieImage>
+            <StyledMovieTitle>
+              {movie.title} ({new Date(movie.release_date).getFullYear()})
+            </StyledMovieTitle>
+          </StyledMovieCard>
+        </Link>
       ))}
     </MovieCardsList>
   );
