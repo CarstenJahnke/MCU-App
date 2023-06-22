@@ -2,6 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { apikey } from "../../pages/_app";
+import Link from "next/link";
+import {
+  StyledMovieImageCard,
+  StyledMovieImage,
+  StyledMovieDescription,
+  StyledMovieCards,
+  StyledMovieCharactersList,
+  StyledMovieCharacters,
+  StyledHeadline,
+  StyledImageWidth,
+  StyledImageHeight,
+  StyledMovieReview,
+  StyledButton,
+} from "../styling/MovieDetailsStyling";
+import Image from "next/image";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -26,7 +41,7 @@ const MovieDetails = () => {
   const { slug } = router.query;
 
   const { data: movie, error } = useSWR(
-    `https://api.themoviedb.org/3/movie/${slug}?api_key=${apikey}`,
+    `https://api.themoviedb.org/3/movie/${slug}?api_key=${apikey}&language=de`,
     fetcher
   );
 
@@ -56,30 +71,48 @@ const MovieDetails = () => {
     : "";
 
   return (
-    <div>
-      <h1>{movie.title}</h1>
-      <p>Jahr: {releaseYear}</p>
-      <img
-        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-        alt={movie.title}
-      />
-      <p>Beschreibung: {movie.overview}</p>
-      <p>Charaktere:</p>
-      <ul>
-        {characters.map((character, index) => (
-          <li key={index}>
-            {character.character} ({character.actor})
-          </li>
-        ))}
-      </ul>
-      <p>Bewertungen:</p>
-      {movie.ratings &&
-        movie.ratings.map((rating, index) => (
-          <li key={index}>
-            {rating.source}: {rating.value}
-          </li>
-        ))}
-    </div>
+    <>
+      <StyledMovieCards>
+        <Link href={`../..`}>
+          <StyledButton>zurück zur Startseite</StyledButton>
+        </Link>
+      </StyledMovieCards>
+      <StyledMovieCards>
+        <StyledMovieImageCard>
+          <StyledMovieImage>
+            <Image
+              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              alt={movie.title}
+              width={StyledImageWidth}
+              height={StyledImageHeight}
+            />
+          </StyledMovieImage>
+        </StyledMovieImageCard>
+      </StyledMovieCards>
+
+      <StyledMovieCards>
+        <StyledMovieDescription>
+          <StyledHeadline>Beschreibung:</StyledHeadline>
+          {movie.overview}
+        </StyledMovieDescription>
+      </StyledMovieCards>
+
+      <StyledMovieCards>
+        <StyledMovieCharacters>
+          <StyledHeadline>Charaktere:</StyledHeadline>
+          {characters.map((character, index) => (
+            <StyledMovieCharactersList key={index}>
+              {character.character} ({character.actor})
+            </StyledMovieCharactersList>
+          ))}
+        </StyledMovieCharacters>
+      </StyledMovieCards>
+      <StyledMovieCards>
+        <StyledMovieReview>
+          <StyledHeadline>Bewertungen:{movie.vote_count}</StyledHeadline>
+        </StyledMovieReview>
+      </StyledMovieCards>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ const fetcher = async (url) => {
 
 const MovieCards = () => {
   const { data: movies, error } = useSWR(
-    `https://api.themoviedb.org/3/list/1?api_key=${apikey}`,
+    `https://api.themoviedb.org/3/list/1?api_key=${apikey}&language=de`,
     fetcher
   );
 
