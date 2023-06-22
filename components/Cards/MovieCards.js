@@ -34,7 +34,7 @@ const MovieCards = () => {
         <StyledMovieCard key={movie.id}>
           <StyledMovieImage key={movie.id}>
             <Image
-              src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
               alt={movie.name}
               width={200}
               height={300}
