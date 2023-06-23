@@ -15,9 +15,7 @@ export const StyledMovieCard = styled.div`
   padding-bottom: 10px;
   margin-bottom: 20px;
   width: 250px;
-  display: inline-block; // Filme horizontal darstellen
   margin-right: 10px; // Abstand zwischen den Filmen
-  vertical-align: top; // Filme in einer Zeile halten
 `;
 
 export const StyledMovieImage = styled.div`
@@ -65,7 +63,6 @@ export const StyledPhaseCard = styled.div`
     #8f1f04,
     #a02b00
   );
-  border-radius: 20px;
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
   padding: 20px;
   padding-bottom: 10px;
