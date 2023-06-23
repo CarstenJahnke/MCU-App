@@ -4,7 +4,7 @@ import Heading from "../Heading";
 const HeadingStyledContainer = styled.div`
   background-image: linear-gradient(to bottom, #5a0000, #6b0804, #a02b00);
   color: #ffb833;
-  font-size: 15px;
+  font-size: 25px;
   padding: 20px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
