@@ -8,6 +8,7 @@ import {
 } from "../styling/MovieCardsStyling";
 import Image from "next/image";
 import { apikey } from "../../pages/_app";
+import { LoadingStyling } from "../styling/LoadingStyling";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -17,7 +18,7 @@ const fetcher = async (url) => {
 
 const MovieCards = () => {
   const { data: movies, error } = useSWR(
-    `https://api.themoviedb.org/3/list/1?api_key=${apikey}&language=de`,
+    `https://api.themoviedb.org/3/list/12179?api_key=${apikey}&language=de`,
     fetcher
   );
 
@@ -26,7 +27,7 @@ const MovieCards = () => {
   }
 
   if (!movies) {
-    return <p>Filme werden geladen...</p>;
+    return <LoadingStyling>Filme werden geladen...</LoadingStyling>;
   }
 
   // Filter and sort movies from 2008
