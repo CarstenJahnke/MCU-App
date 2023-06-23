@@ -29,9 +29,19 @@ const MovieCards = () => {
     return <p>Filme werden geladen...</p>;
   }
 
+  const filteredMovies = movies.filter(
+    (movie) => new Date(movie.release_date).getFullYear() >= 2008
+  );
+
+  filteredMovies.sort((a, b) => {
+    const yearA = new Date(a.release_date).getFullYear();
+    const yearB = new Date(b.release_date).getFullYear();
+    return yearA - yearB;
+  });
+
   return (
     <MovieCardsList>
-      {movies.map((movie) => (
+      {filteredMovies.map((movie) => (
         <Link href={`/movies/${encodeURIComponent(movie.id)}`} key={movie.id}>
           <StyledMovieCard>
             <StyledMovieImage>
