@@ -29,6 +29,7 @@ const MovieCards = () => {
     return <p>Filme werden geladen...</p>;
   }
 
+  // Filter and sort movies from 2008
   const filteredMovies = movies.filter(
     (movie) => new Date(movie.release_date).getFullYear() >= 2008
   );
@@ -36,7 +37,21 @@ const MovieCards = () => {
   filteredMovies.sort((a, b) => {
     const yearA = new Date(a.release_date).getFullYear();
     const yearB = new Date(b.release_date).getFullYear();
-    return yearA - yearB;
+    if (yearA === 2008 && yearB === 2008) {
+      // Sort by release date if both movies are from 2008
+      const releaseDateA = new Date(a.release_date);
+      const releaseDateB = new Date(b.release_date);
+      return releaseDateA - releaseDateB;
+    } else if (yearA === 2008) {
+      // Prioritize the film from 2008 in const yearA
+      return -1;
+    } else if (yearB === 2008) {
+      // Prioritize the film from 2008 in const yearB
+      return 1;
+    } else {
+      // Sort by year of publication
+      return yearA - yearB;
+    }
   });
 
   return (
