@@ -15,6 +15,7 @@ export const StyledMovieCard = styled.div`
   padding-bottom: 10px;
   margin-bottom: 20px;
   width: 250px;
+  margin-right: 10px; // Abstand zwischen den Filmen
 `;
 
 export const StyledMovieImage = styled.div`
@@ -41,4 +42,37 @@ export const MovieCardsList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const StyledPhaseHeadline = styled.div`
+  color: #ffb833;
+  font-size: 20px;
+  margin-right: 20px;
+  text-align: center;
+  transform: rotate(180deg);
+  writing-mode: vertical-rl;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const StyledPhaseCard = styled.div`
+  background-image: linear-gradient(
+    to bottom,
+    #3d0000,
+    #4f0603,
+    #631104,
+    #8f1f04,
+    #a02b00
+  );
+  box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  overflow-x: auto; // Horizontales Scrollen
+
+  // CSS-Regel für den Container der Filme innerhalb der Karte
+  .movies-container {
+    display: flex; // Aktiviert das Flexbox-Layout
+    flex: 1; // Gleichmäßige Verteilung des verfügbaren Platzes
+  }
 `;
