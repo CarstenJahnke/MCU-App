@@ -1,3 +1,4 @@
+// Importieren der benötigten Abhängigkeiten und Komponenten
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import useSWR from "swr";
@@ -14,6 +15,7 @@ import { apikey } from "../../pages/_app";
 import { LoadingImage, LoadingStyle } from "../styling/LoadingStyling";
 import GlobalStyle from "../../styles";
 
+// Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
   const response = await fetch(url);
   const data = await response.json();
@@ -21,32 +23,38 @@ const fetcher = async (url) => {
 };
 
 const MovieCards = () => {
+  // Zustandsvariablen für den Ladezustand und den ersten Ladezustand
   const [isLoading, setIsLoading] = useState(true);
-  const [isFirstLoad, setIsFirstLoad] = useState(true); // Zustandsvariable für den ersten Laden der Seite
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
+  // Abrufen der Film-Daten mithilfe des useSWR-Hooks
   const { data: movies, error } = useSWR(
     `https://api.themoviedb.org/3/list/12179?api_key=${apikey}&language=de`,
     fetcher
   );
 
+  // Wird einmalig ausgeführt, wenn die Komponente geladen wird um einen Ladescreen zu erzeugen
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setIsFirstLoad(false); // Setze isFirstLoad auf false nach dem ersten Laden
-    }, 3000);
+      setIsFirstLoad(false);
+    }, 1000);
 
+    // Bereinigt den Timer, wenn die Komponente demontiert wird
     return () => clearTimeout(timer);
   }, []);
 
-  // Zurücksetzen von isFirstLoad, wenn die Komponente wieder gerendert wird
+  // Setzt isFirstLoad zurück, wenn sich die Film-Daten ändern
   useEffect(() => {
     setIsFirstLoad(true);
   }, [movies]);
 
+  // Wenn ein Fehler auftritt, wird eine Fehlermeldung angezeigt
   if (error) {
     return <p>Daten konnten nicht abgerufen werden.</p>;
   }
 
+  // Zeigt den Ladezustand an
   if (isLoading && isFirstLoad) {
     return (
       <>
@@ -60,20 +68,20 @@ const MovieCards = () => {
 
   // MCU-Phasen Veröffentlichungsjahre
   const mcuPhases = [
-    { phase: 1, startYear: 2008, endYear: 2012 }, // Phase 1 hinzugefügt
-    { phase: 2, startYear: 2013, endYear: 2015 }, // Phase 2 hinzugefügt
-    { phase: 3, startYear: 2016, endYear: 2019 }, // Phase 3 hinzugefügt
-    { phase: 4, startYear: 2020, endYear: 2022 }, // Phase 4 hinzugefügt
-    { phase: 5, startYear: 2023, endYear: 2025 }, // Phase 5 hinzugefügt
-    { phase: 6, startYear: 2026, endYear: 2028 }, // Phase 6 hinzugefügt
+    { phase: 1, startYear: 2008, endYear: 2012 },
+    { phase: 2, startYear: 2013, endYear: 2015 },
+    { phase: 3, startYear: 2016, endYear: 2019 },
+    { phase: 4, startYear: 2020, endYear: 2022 },
+    { phase: 5, startYear: 2023, endYear: 2025 },
+    { phase: 6, startYear: 2026, endYear: 2028 },
   ];
 
-  // Filter und Sortierung ab 2008
+  // Filtern und Sortieren der Filme ab 2008
   const filteredMovies = movies.filter(
     (movie) => new Date(movie.release_date).getFullYear() >= 2008
   );
 
-  // Sortieren nach Phasen
+  // Sortieren der Filme nach Phasen
   const sortedMovies = [];
   mcuPhases.forEach((phase) => {
     const moviesInPhase = filteredMovies.filter((movie) => {
@@ -87,10 +95,12 @@ const MovieCards = () => {
     <>
       <GlobalStyle />
       <MovieCardsList>
+        {/* Filme für jede Phase rendern */}
         {mcuPhases.map((phase) => (
           <StyledPhaseCard key={`PhaseCard${phase.phase}`}>
             <div className="movies-container">
               <StyledPhaseHeadline>Phase {phase.phase}</StyledPhaseHeadline>
+              {/* Filme für jeden Film in der Phase rendern */}
               {sortedMovies
                 .filter((movie) => {
                   const releaseYear = new Date(

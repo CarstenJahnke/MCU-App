@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { apikey } from "../../pages/_app";
 import { HeadingStyledContainer } from "../styling/MovieDetailsStyling";
+import { LoadingStyle } from "../styling/LoadingStyling";
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -16,11 +17,11 @@ const MovieTitle = ({ slug }) => {
   );
 
   if (error) {
-    return <p>Fehler beim Abrufen des Filmtitels.</p>;
+    return <LoadingStyle>Fehler beim Abrufen des Filmtitels.</LoadingStyle>;
   }
 
   if (!movie) {
-    return <p>Filmtitel wird geladen...</p>;
+    return <></>;
   }
 
   return (
