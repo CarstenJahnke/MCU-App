@@ -205,6 +205,16 @@ const MovieCards = () => {
                       releaseYear <= phase.endYear
                     );
                   })
+                  // Die gefilterte Phasenliste, wird nach dem Release Jahr sortiert
+                  .sort((a, b) => {
+                    const releaseYearMovieA = new Date(
+                      a.release_date
+                    ).getFullYear();
+                    const releaseYearMovieB = new Date(
+                      b.release_date
+                    ).getFullYear();
+                    return releaseYearMovieA - releaseYearMovieB;
+                  })
                   .map((movie, index) => (
                     <Link
                       href={`/movies/${encodeURIComponent(movie.id)}`}
