@@ -17,6 +17,8 @@ const StyledCard = css`
   margin-top: -10px;
   width: 90%;
 `;
+
+export const StyledText = styled.div`
   color: #ffb833;
   font-size: 17px;
   margin-bottom: 10px;
@@ -79,6 +81,8 @@ export const StyledMovieCharactersList = styled.li`
 // Film Titel Styling im Header
 export const HeadingStyledContainer = styled.div`
   background-image: linear-gradient(to bottom, #5a0000, #6b0804, #a02b00);
+  border-bottom-left-radius: 20%;
+  border-bottom-right-radius: 20%;
   border-bottom-style: inset;
   border-bottom-width: 5px;
   border-color: #a3700f;

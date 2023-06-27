@@ -1,6 +1,5 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import { StyledPhaseHeadline } from "./MovieCardsStyling";
 
 // Lade Animation (von Links nach Rechts fliegend)
 const slideAnimation = keyframes`
