@@ -11,6 +11,15 @@ const slideAnimation = keyframes`
   }
 `;
 
+const fadeOutAnimation = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
 const LoadingStyle = styled.div`
   color: #ffb833;
   display: flex;
@@ -20,6 +29,8 @@ const LoadingStyle = styled.div`
   margin-bottom: 10px;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  animation: ${({ isFadeOut }) =>
+    isFadeOut ? `${fadeOutAnimation} 0.5s ease-out forwards` : ""};
 `;
 
 const LoadingImageWrapper = styled.img`

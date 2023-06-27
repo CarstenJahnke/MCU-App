@@ -16,6 +16,7 @@ import { LoadingImage, LoadingStyle } from "../styling/LoadingStyling";
 import GlobalStyle from "../../styles";
 import { mcuTimeline } from "../MCUTimeline/MCUTimeline";
 import SortButton from "../styling/SortButtonStyling";
+import { motion } from "framer-motion";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -36,14 +37,16 @@ const MovieCards = () => {
     fetcher
   );
 
+  const [isFadeOut, setIsFadeOut] = useState(false);
+
   // Wird einmalig ausgeführt, wenn die Komponente geladen wird, um einen Ladescreen zu erzeugen
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setIsFirstLoad(false);
+      setIsFirstLoad(true);
+      setIsFadeOut(true); // Füge diese Zeile hinzu, um den Ladescreen auszublenden
     }, 1000);
 
-    // Bereinigt den Timer, wenn die Komponente demontiert wird
     return () => clearTimeout(timer);
   }, []);
 
@@ -61,10 +64,12 @@ const MovieCards = () => {
   if (isLoading && isFirstLoad) {
     return (
       <>
-        <LoadingStyle>
+        <LoadingStyle className={isFadeOut ? "fade-out" : ""}>
           <LoadingImage />
         </LoadingStyle>
-        <LoadingStyle>Arc-Reaktor wird aufgeladen... </LoadingStyle>
+        <LoadingStyle className={isFadeOut ? "fade-out" : ""}>
+          Arc-Reaktor wird geladen...
+        </LoadingStyle>
       </>
     );
   }
@@ -161,7 +166,13 @@ const MovieCards = () => {
         <MovieCardsList>
           {/* Filme für jede Phase rendern */}
           {mcuPhases.map((phase) => (
-            <StyledPhaseCard key={`PhaseCard${phase.phase}`}>
+            <StyledPhaseCard
+              key={`PhaseCard${phase.phase}`}
+              as={motion.div} // Verwende die motion.div-Komponente anstelle von div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+            >
               <div className="movies-container">
                 <StyledPhaseHeadline>Phase {phase.phase}</StyledPhaseHeadline>
                 {/* Filme für jeden Film in der Phase rendern */}
@@ -202,7 +213,12 @@ const MovieCards = () => {
           ))}
         </MovieCardsList>
       ) : (
-        <MovieCardsList>
+        <MovieCardsList
+          as={motion.div} // Verwende die motion.div-Komponente anstelle von div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+        >
           {sortedMovies.map((movie, index) => (
             <Link
               href={`/movies/${encodeURIComponent(movie.id)}`}
