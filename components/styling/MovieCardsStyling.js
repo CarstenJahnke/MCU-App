@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// Film Card
 export const StyledMovieCard = styled.div`
   background-image: linear-gradient(
     to bottom,
@@ -11,22 +12,25 @@ export const StyledMovieCard = styled.div`
   );
   border-radius: 20px;
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+  margin-right: 10px;
   padding-top: 20px;
   padding-bottom: 10px;
-  margin-bottom: 10px;
+
   width: 250px;
-  margin-right: 10px; // Abstand zwischen den Filmen
 `;
 
+// Film Poster
 export const StyledMovieImage = styled.div`
-  border-radius: 20px;
   display: flex;
-  width: auto;
+  border-radius: 20px;
   height: 100%;
   justify-content: center;
   margin-bottom: 10px;
+  width: auto;
 `;
 
+// Film Titel
 export const StyledMovieTitle = styled.div`
   color: #ffb833;
   display: flex;
@@ -37,24 +41,15 @@ export const StyledMovieTitle = styled.div`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
+// Film Liste
 export const MovieCardsList = styled.ul`
-  padding-inline: 0px;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+
 `;
 
-export const StyledPhaseHeadline = styled.div`
-  color: #ffb833;
-  font-size: 20px;
-  margin-right: 20px;
-  text-align: center;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  text-orientation: upright;
-  writing-mode: vertical-lr;
-`;
-
+// Phasen Card
 export const StyledPhaseCard = styled.div`
   background-image: linear-gradient(
     to bottom,
@@ -65,14 +60,22 @@ export const StyledPhaseCard = styled.div`
     #a02b00
   );
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-  padding: 10px;
-  margin-bottom: 20px;
-  width: 100%;
-  overflow-x: auto; // Horizontales Scrollen
 
-  // CSS-Regel für den Container der Filme innerhalb der Karte
+  width: 100%;
   .movies-container {
-    display: flex; // Aktiviert das Flexbox-Layout
+    // CSS-Regel für die Film Cards innerhalb der Phasen Card
+    display: flex;
     flex: 1; // Gleichmäßige Verteilung des verfügbaren Platzes
   }
+`;
+
+// Phasen Titel
+export const StyledPhaseHeadline = styled.div`
+  color: #ffb833;
+  font-size: 20px;
+  margin-right: 20px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transform: rotate(180deg); // Schriftzug wird um 180° gedreht
+  writing-mode: vertical-rl; // Schriftzug wird Vertikal dargestellt
 `;
