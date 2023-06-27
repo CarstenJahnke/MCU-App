@@ -14,6 +14,8 @@ import Image from "next/image";
 import { apikey } from "../../pages/_app";
 import { LoadingImage, LoadingStyle } from "../styling/LoadingStyling";
 import GlobalStyle from "../../styles";
+import { mcuTimeline } from "../MCUTimeline/MCUTimeline";
+import { StyledButton } from "../styling/SortButtonStyling";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -23,9 +25,10 @@ const fetcher = async (url) => {
 };
 
 const MovieCards = () => {
-  // Zustandsvariablen für den Ladezustand und den ersten Ladezustand
+  // Zustandsvariablen für den Ladezustand, den ersten Ladezustand und die Sortieroption
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [sortOption, setSortOption] = useState(1); // 1: Nach Phasen sortiert, 2: Chronologisch sortiert
 
   // Abrufen der Film-Daten mithilfe des useSWR-Hooks
   const { data: movies, error } = useSWR(
@@ -33,7 +36,7 @@ const MovieCards = () => {
     fetcher
   );
 
-  // Wird einmalig ausgeführt, wenn die Komponente geladen wird um einen Ladescreen zu erzeugen
+  // Wird einmalig ausgeführt, wenn die Komponente geladen wird, um einen Ladescreen zu erzeugen
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -82,60 +85,151 @@ const MovieCards = () => {
   );
 
   // Sortieren der Filme nach Phasen
-  const sortedMovies = [];
+  const sortedMoviesByPhase = [];
   mcuPhases.forEach((phase) => {
-    const moviesInPhase = filteredMovies.filter((movie) => {
-      const releaseYear = new Date(movie.release_date).getFullYear();
-      return releaseYear >= phase.startYear && releaseYear <= phase.endYear;
-    });
-    sortedMovies.push(...moviesInPhase);
+    const moviesInPhase = filteredMovies
+      .filter((movie) => {
+        const releaseYear = new Date(movie.release_date).getFullYear();
+        return releaseYear >= phase.startYear && releaseYear <= phase.endYear;
+      })
+      .sort((a, b) => {
+        const releaseYearA = new Date(a.release_date).getFullYear();
+        const releaseYearB = new Date(b.release_date).getFullYear();
+        return releaseYearA - releaseYearB;
+      });
+
+    sortedMoviesByPhase.push(...moviesInPhase);
   });
+
+  // Sortieren der Filme chronologisch basierend auf der mcuTimeline
+  const sortedMoviesChronological = sortedMoviesByPhase.sort((a, b) => {
+    const movieATitle = a.title;
+    const movieBTitle = b.title;
+
+    const movieA = mcuTimeline.find((movie) =>
+      movieATitle.includes(movie.title)
+    );
+    const movieB = mcuTimeline.find((movie) =>
+      movieBTitle.includes(movie.title)
+    );
+
+    if (movieA && movieB) {
+      return movieA.year.localeCompare(movieB.year);
+    } else if (movieA) {
+      return -1;
+    } else if (movieB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
+  // Sucht das Jahr basierend auf der Sortieroption und der mcuTimeLine.js und gibt es zurück, falls gefunden.
+  const getMovieYearFromTimeline = (movie, option) => {
+    if (option === 1) {
+      // Nach Phasen sortieren - Verwende Release-Jahr aus der API
+      return `(${new Date(movie.release_date).getFullYear()})`;
+    } else {
+      // Nach Chronologie sortieren - Verwende Jahr aus mcuTimeLine.js
+      const movieTitle = movie.title ? movie.title.toLowerCase() : "";
+      const movieFromTimeline = mcuTimeline.find((m) =>
+        movieTitle.includes(m.title.toLowerCase())
+      );
+      return movieFromTimeline ? `(${movieFromTimeline.year})` : "";
+    }
+  };
+
+  // Sortieren der Filme basierend auf der gewählten Sortieroption
+  let sortedMovies;
+  if (sortOption === 1) {
+    sortedMovies = sortedMoviesByPhase;
+  } else {
+    sortedMovies = sortedMoviesChronological;
+  }
 
   return (
     <>
+      <StyledButton
+        onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
+        style={{
+          margin: sortOption === 1 ? "20px auto 0" : "20px auto 0 0",
+        }} /* Dynamische Anpassung des Margins basierend auf der Sortieroption */
+      >
+        {sortOption === 1
+          ? "Nach Chronologie sortieren"
+          : "Nach Phasen sortieren"}
+      </StyledButton>
       <GlobalStyle />
-      <MovieCardsList>
-        {/* Filme für jede Phase rendern */}
-        {mcuPhases.map((phase) => (
-          <StyledPhaseCard key={`PhaseCard${phase.phase}`}>
-            <div className="movies-container">
-              <StyledPhaseHeadline>Phase {phase.phase}</StyledPhaseHeadline>
-              {/* Filme für jeden Film in der Phase rendern */}
-              {sortedMovies
-                .filter((movie) => {
-                  const releaseYear = new Date(
-                    movie.release_date
-                  ).getFullYear();
-                  return (
-                    releaseYear >= phase.startYear &&
-                    releaseYear <= phase.endYear
-                  );
-                })
-                .map((movie) => (
-                  <Link
-                    href={`/movies/${encodeURIComponent(movie.id)}`}
-                    key={movie.id}
-                  >
-                    <StyledMovieCard>
-                      <StyledMovieImage>
-                        <Image
-                          src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                          alt={movie.name}
-                          width={200}
-                          height={300}
-                        />
-                      </StyledMovieImage>
-                      <StyledMovieTitle>
-                        {movie.title} (
-                        {new Date(movie.release_date).getFullYear()})
-                      </StyledMovieTitle>
-                    </StyledMovieCard>
-                  </Link>
-                ))}
-            </div>
-          </StyledPhaseCard>
-        ))}
-      </MovieCardsList>
+      {sortOption === 1 ? (
+        <MovieCardsList>
+          {/* Filme für jede Phase rendern */}
+          {mcuPhases.map((phase) => (
+            <StyledPhaseCard key={`PhaseCard${phase.phase}`}>
+              <div className="movies-container">
+                <StyledPhaseHeadline>Phase {phase.phase}</StyledPhaseHeadline>
+                {/* Filme für jeden Film in der Phase rendern */}
+                {sortedMovies
+                  .filter((movie) => {
+                    const releaseYear = new Date(
+                      movie.release_date
+                    ).getFullYear();
+                    return (
+                      releaseYear >= phase.startYear &&
+                      releaseYear <= phase.endYear
+                    );
+                  })
+                  .map((movie, index) => (
+                    <Link
+                      href={`/movies/${encodeURIComponent(movie.id)}`}
+                      key={movie.id}
+                    >
+                      <StyledMovieCard>
+                        <StyledMovieImage>
+                          <Image
+                            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                            alt={movie.name}
+                            width={200}
+                            height={300}
+                          />
+                        </StyledMovieImage>
+                        <StyledMovieTitle>
+                          {movie.title}{" "}
+                          {getMovieYearFromTimeline(movie, sortOption)}
+                        </StyledMovieTitle>
+                        <span style={{ display: "none" }}>{index + 1}</span>
+                      </StyledMovieCard>
+                    </Link>
+                  ))}
+              </div>
+            </StyledPhaseCard>
+          ))}
+        </MovieCardsList>
+      ) : (
+        <MovieCardsList>
+          {sortedMovies.map((movie, index) => (
+            <Link
+              href={`/movies/${encodeURIComponent(movie.id)}`}
+              key={movie.id}
+            >
+              <StyledMovieCard>
+                <StyledMovieImage>
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    alt={movie.name}
+                    width={200}
+                    height={300}
+                  />
+                </StyledMovieImage>
+                <StyledMovieTitle>
+                  {movie.title} {getMovieYearFromTimeline(movie, sortOption)}
+                </StyledMovieTitle>
+
+                <span style={{ display: "none" }}>{index + 1}</span>
+              </StyledMovieCard>
+            </Link>
+          ))}
+        </MovieCardsList>
+      )}
     </>
   );
 };

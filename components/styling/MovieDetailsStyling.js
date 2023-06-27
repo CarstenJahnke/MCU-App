@@ -16,7 +16,7 @@ const StyledCard = css`
   margin-top: -10px;
 `;
 
-const StyledText = css`
+export const StyledText = css`
   color: #ffb833;
   font-size: 17px;
   margin-bottom: 10px;

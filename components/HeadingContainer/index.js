@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import Heading from "../Heading";
 
@@ -15,10 +16,12 @@ const HeadingStyledContainer = styled.div`
   text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
 `;
 
-export default function HeadingContainer() {
+const HeadingContainer = () => {
   return (
     <HeadingStyledContainer>
       <Heading>Marvelous Cinematic Unisearch</Heading>
     </HeadingStyledContainer>
   );
-}
+};
+
+export default HeadingContainer;
