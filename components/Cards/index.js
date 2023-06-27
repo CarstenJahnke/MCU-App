@@ -15,7 +15,7 @@ import { apikey } from "../../pages/_app";
 import { LoadingImage, LoadingStyle } from "../styling/LoadingStyling";
 import GlobalStyle from "../../styles";
 import { mcuTimeline } from "../MCUTimeline/MCUTimeline";
-import { StyledButton } from "../styling/SortButtonStyling";
+import SortButton from "../styling/SortButtonStyling";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -32,7 +32,7 @@ const MovieCards = () => {
 
   // Abrufen der Film-Daten mithilfe des useSWR-Hooks
   const { data: movies, error } = useSWR(
-    `https://api.themoviedb.org/3/list/12179?api_key=${apikey}&language=de`,
+    `https://api.themoviedb.org/3/list/8258181?api_key=${apikey}&language=de`,
     fetcher
   );
 
@@ -80,9 +80,11 @@ const MovieCards = () => {
   ];
 
   // Filtern und Sortieren der Filme ab 2008
-  const filteredMovies = movies.filter(
-    (movie) => new Date(movie.release_date).getFullYear() >= 2008
-  );
+  const filteredMovies = movies
+    ? movies.filter(
+        (movie) => new Date(movie.release_date).getFullYear() >= 2008
+      )
+    : [];
 
   // Sortieren der Filme nach Phasen
   const sortedMoviesByPhase = [];
@@ -149,16 +151,11 @@ const MovieCards = () => {
 
   return (
     <>
-      <StyledButton
-        onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
-        style={{
-          margin: sortOption === 1 ? "20px auto 0" : "20px auto 0 0",
-        }} /* Dynamische Anpassung des Margins basierend auf der Sortieroption */
-      >
+      <SortButton onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
         {sortOption === 1
           ? "Nach Chronologie sortieren"
           : "Nach Phasen sortieren"}
-      </StyledButton>
+      </SortButton>
       <GlobalStyle />
       {sortOption === 1 ? (
         <MovieCardsList>

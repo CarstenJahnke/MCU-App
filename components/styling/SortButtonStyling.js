@@ -1,7 +1,7 @@
-import { StyledText } from "./MovieDetailsStyling";
 import styled from "styled-components";
+import { StyledText } from "./MovieDetailsStyling";
 
-export const StyledButton = styled.button`
+export const SortButton = styled.button`
   ${StyledText}
   text-align: center;
   background-image: linear-gradient(
@@ -15,7 +15,8 @@ export const StyledButton = styled.button`
   border-radius: 20px;
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
   padding: 10px;
-  max-width: 20%;
-  margin: 20px auto 0; /* Hier wird die horizontale Zentrierung mit einem oberen Abstand versehen */
-  transition: margin 2.5s ease; /* Übergangseigenschaft für eine sanfte Animation hinzufügen */
+  width: 100%;
+  margin-top: 30px;
 `;
+
+export default SortButton;
