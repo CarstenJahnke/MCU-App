@@ -14,7 +14,7 @@ import Image from "next/image";
 import { apikey } from "../../pages/_app";
 import { LoadingImage, LoadingStyle } from "../styling/LoadingStyling";
 import GlobalStyle from "../../styles";
-import { mcuTimeline } from "../MCUTimeline/mcuTimeline";
+import { mcuTimeline } from "../MCUTimeline";
 import ButtonStyle from "../styling/ButtonStyling";
 import { motion } from "framer-motion";
 
