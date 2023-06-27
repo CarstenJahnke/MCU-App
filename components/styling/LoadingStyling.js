@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { StyledPhaseHeadline } from "./MovieCardsStyling";
 
-// Lade Animation (von Links nach Rechts fliegend)
 const slideAnimation = keyframes`
   0% {
     transform: translateX(-100%);
@@ -11,26 +11,32 @@ const slideAnimation = keyframes`
   }
 `;
 
+const fadeOutAnimation = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
 
 const LoadingStyle = styled.div`
   color: #ffb833;
   display: flex;
-  font-size: 25px;
   justify-content: center;
-  margin-bottom: 10px;
+  font-size: 25px;
   margin-top: 20px;
+  margin-bottom: 10px;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   animation: ${({ isFadeOut }) =>
     isFadeOut ? `${fadeOutAnimation} 0.5s ease-out forwards` : ""};
 `;
 
-// Länge der Animation
 const LoadingImageWrapper = styled.img`
   animation: ${slideAnimation} 3s linear;
 `;
 
-// Lade-Image
 const LoadingImage = () => (
   <LoadingImageWrapper
     src={
