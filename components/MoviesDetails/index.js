@@ -16,10 +16,10 @@ import {
   StyledImageWidth,
   StyledImageHeight,
   StyledMovieReview,
-  StyledButton,
 } from "../styling/MovieDetailsStyling";
 import Image from "next/image";
 import { LoadingStyle } from "../styling/LoadingStyling";
+import ButtonStyle from "../styling/ButtonStyling";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -97,11 +97,9 @@ const MovieDetails = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
       >
-        <StyledMovieCards>
-          <Link href={`../..`}>
-            <StyledButton>Zurück zur Startseite</StyledButton>
-          </Link>
-        </StyledMovieCards>
+        <Link href={`../..`}>
+          <ButtonStyle>Zurück zur Startseite</ButtonStyle>
+        </Link>
       </motion.div>
 
       {/* Filmbild */}

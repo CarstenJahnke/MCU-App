@@ -73,8 +73,8 @@ export const HeadingStyledContainer = styled.div`
   color: #ffb833;
   font-size: 25px;
   padding: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20%;
+  border-bottom-right-radius: 20%;
   border-color: #a3700f;
   border-bottom-style: inset;
   border-bottom-width: 5px;
@@ -85,22 +85,4 @@ export const HeadingStyledContainer = styled.div`
 export const StyledMovieReview = styled.ul`
   ${StyledCard}
   ${StyledText}
-`;
-
-export const StyledButton = styled.button`
-  ${StyledText}
-  text-align: center;
-  background-image: linear-gradient(
-    to bottom,
-    #5a0000,
-    #6b0804,
-    #7d1405,
-    #8f1f04,
-    #a02b00
-  );
-  border-radius: 20px;
-  box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-  padding: 10%;
-  width: 100%;
-  margin-top: -10px;
 `;

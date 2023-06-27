@@ -7,8 +7,8 @@ const HeadingStyledContainer = styled.div`
   color: #ffb833;
   font-size: 25px;
   padding: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20%;
+  border-bottom-right-radius: 20%;
   border-color: #a3700f;
   border-bottom-style: inset;
   border-bottom-width: 5px;

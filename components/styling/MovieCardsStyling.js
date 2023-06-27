@@ -13,7 +13,7 @@ export const StyledMovieCard = styled.div`
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
   padding-top: 20px;
   padding-bottom: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 250px;
   margin-right: 10px; // Abstand zwischen den Filmen
 `;
@@ -42,6 +42,7 @@ export const MovieCardsList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 `;
 
 export const StyledPhaseHeadline = styled.div`
@@ -49,9 +50,9 @@ export const StyledPhaseHeadline = styled.div`
   font-size: 20px;
   margin-right: 20px;
   text-align: center;
-  transform: rotate(180deg);
-  writing-mode: vertical-rl;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-orientation: upright;
+  writing-mode: vertical-lr;
 `;
 
 export const StyledPhaseCard = styled.div`
@@ -64,8 +65,7 @@ export const StyledPhaseCard = styled.div`
     #a02b00
   );
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-  padding: 20px;
-  padding-bottom: 10px;
+  padding: 10px;
   margin-bottom: 20px;
   width: 100%;
   overflow-x: auto; // Horizontales Scrollen

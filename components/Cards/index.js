@@ -15,7 +15,7 @@ import { apikey } from "../../pages/_app";
 import { LoadingImage, LoadingStyle } from "../styling/LoadingStyling";
 import GlobalStyle from "../../styles";
 import { mcuTimeline } from "../MCUTimeline/MCUTimeline";
-import SortButton from "../styling/SortButtonStyling";
+import ButtonStyle from "../styling/ButtonStyling";
 import { motion } from "framer-motion";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
@@ -64,10 +64,20 @@ const MovieCards = () => {
   if (isLoading && isFirstLoad) {
     return (
       <>
-        <LoadingStyle className={isFadeOut ? "fade-out" : ""}>
+        <LoadingStyle
+          as={motion.div}
+          initial={{ opacity: 0 }} // Anfangszustand der Animation
+          animate={{ opacity: 1 }} // Zustand, zu dem animiert werden soll
+          transition={{ duration: 0.5 }} // Dauer der Animation
+        >
           <LoadingImage />
         </LoadingStyle>
-        <LoadingStyle className={isFadeOut ? "fade-out" : ""}>
+        <LoadingStyle
+          as={motion.div}
+          initial={{ opacity: 0 }} // Anfangszustand der Animation
+          animate={{ opacity: 1 }} // Zustand, zu dem animiert werden soll
+          transition={{ duration: 0.25 }} // Dauer der Animation
+        >
           Arc-Reaktor wird geladen...
         </LoadingStyle>
       </>
@@ -156,25 +166,34 @@ const MovieCards = () => {
 
   return (
     <>
-      <SortButton onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
+      <ButtonStyle onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
         {sortOption === 1
           ? "Nach Chronologie sortieren"
           : "Nach Phasen sortieren"}
-      </SortButton>
+      </ButtonStyle>
       <GlobalStyle />
       {sortOption === 1 ? (
         <MovieCardsList>
           {/* Filme für jede Phase rendern */}
-          {mcuPhases.map((phase) => (
+          {mcuPhases.map((phase, index) => (
             <StyledPhaseCard
               key={`PhaseCard${phase.phase}`}
-              as={motion.div} // Verwende die motion.div-Komponente anstelle von div
+              as={motion.div}
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
+              transition={{ delay: index * 0.2 }} // Verzögerung basierend auf dem Index der Phase
             >
               <div className="movies-container">
-                <StyledPhaseHeadline>Phase {phase.phase}</StyledPhaseHeadline>
+                <StyledPhaseHeadline
+                  as={motion.div}
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  transition={{ delay: index * 0.3 }} // Verzögerung basierend auf dem Index der Phase
+                >
+                  Phase {phase.phase}
+                </StyledPhaseHeadline>
                 {/* Filme für jeden Film in der Phase rendern */}
                 {sortedMovies
                   .filter((movie) => {
@@ -191,7 +210,13 @@ const MovieCards = () => {
                       href={`/movies/${encodeURIComponent(movie.id)}`}
                       key={movie.id}
                     >
-                      <StyledMovieCard>
+                      <StyledMovieCard
+                        as={motion.div}
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ delay: index * 0.2 }}
+                      >
                         <StyledMovieImage>
                           <Image
                             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -224,7 +249,13 @@ const MovieCards = () => {
               href={`/movies/${encodeURIComponent(movie.id)}`}
               key={movie.id}
             >
-              <StyledMovieCard>
+              <StyledMovieCard
+                as={motion.div}
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+                transition={{ delay: index * 0.2 }}
+              >
                 <StyledMovieImage>
                   <Image
                     src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
