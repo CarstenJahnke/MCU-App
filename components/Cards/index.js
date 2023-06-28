@@ -20,40 +20,39 @@ import FavoriteButton from "../FavoriteButton/FavButton";
 import { mcuPhases } from "../Phases";
 import LoadingScreen from "../LoadingScreen";
 
+// Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
   const response = await fetch(url);
   const data = await response.json();
   return data.items;
 };
 
+// Abrufen der Film-Daten mithilfe des useSWR-Hooks
 const MovieCards = () => {
   const { data: movies, error } = useSWR(
     `https://api.themoviedb.org/3/list/8258181?api_key=${apikey}&language=de`,
     fetcher
   );
 
-  const [sortOption, setSortOption] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  // Zustandsvariablen für
+  const [sortOption, setSortOption] = useState(1); // Sortiermodus: 1 - Nach Phasen sortieren, 2 - Nach Chronologie sortieren
+  const [isLoading, setIsLoading] = useState(true); // Ladezustand: true - Ladezustand, false - nicht im Ladezustand
 
+  // Wird ausgeführt, wenn die Komponente geladen wird, um einen Ladescreen zu erzeugen
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setIsFirstLoad(true);
     }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    setIsFirstLoad(true);
-  }, [movies]);
-
+  // Wenn ein Fehler auftritt, wird eine Fehlermeldung angezeigt
   if (error) {
     return <p>Daten konnten nicht abgerufen werden.</p>;
   }
-
-  if (isLoading && isFirstLoad) {
+  // Zeigt den Ladezustand animiert an
+  if (isLoading) {
     return <LoadingScreen />;
   }
 
