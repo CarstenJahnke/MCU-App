@@ -17,7 +17,7 @@ import GlobalStyle from "../../styles";
 import { mcuTimeline } from "../MCUTimeline";
 import ButtonStyle from "../styling/ButtonStyling";
 import { motion } from "framer-motion";
-import FavoriteButton from "../FavoriteButton";
+import FavoriteButton from "../FavoriteButton/FavButton";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
