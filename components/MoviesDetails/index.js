@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { apikey } from "../../pages/_app";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   StyledMovieImageCard,
   StyledMovieImage,
@@ -15,10 +16,10 @@ import {
   StyledImageWidth,
   StyledImageHeight,
   StyledMovieReview,
-  StyledButton,
 } from "../styling/MovieDetailsStyling";
 import Image from "next/image";
 import { LoadingStyle } from "../styling/LoadingStyling";
+import ButtonStyle from "../styling/ButtonStyling";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -91,52 +92,80 @@ const MovieDetails = () => {
   return (
     <>
       {/* Zurück-Button zur Startseite */}
-      <StyledMovieCards>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+      >
         <Link href={`../..`}>
-          <StyledButton>Zurück zur Startseite</StyledButton>
+          <ButtonStyle>Zurück zur Startseite</ButtonStyle>
         </Link>
-      </StyledMovieCards>
+      </motion.div>
 
       {/* Filmbild */}
-      <StyledMovieCards>
-        <StyledMovieImageCard>
-          <StyledMovieImage>
-            <Image
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              alt={movie.title}
-              width={StyledImageWidth}
-              height={StyledImageHeight}
-            />
-          </StyledMovieImage>
-        </StyledMovieImageCard>
-      </StyledMovieCards>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.5 }}
+      >
+        <StyledMovieCards>
+          <StyledMovieImageCard>
+            <StyledMovieImage>
+              <Image
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                alt={movie.title}
+                width={StyledImageWidth}
+                height={StyledImageHeight}
+              />
+            </StyledMovieImage>
+          </StyledMovieImageCard>
+        </StyledMovieCards>
+      </motion.div>
 
       {/* Filmbeschreibung */}
-      <StyledMovieCards>
-        <StyledMovieDescription>
-          <StyledHeadline>Beschreibung:</StyledHeadline>
-          {movie.overview}
-        </StyledMovieDescription>
-      </StyledMovieCards>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+      >
+        <StyledMovieCards>
+          <StyledMovieDescription>
+            <StyledHeadline>Beschreibung:</StyledHeadline>
+            {movie.overview}
+          </StyledMovieDescription>
+        </StyledMovieCards>
+      </motion.div>
 
       {/* Liste der Charaktere */}
-      <StyledMovieCards>
-        <StyledMovieCharacters>
-          <StyledHeadline>Charaktere:</StyledHeadline>
-          {characters.map((character, index) => (
-            <StyledMovieCharactersList key={index}>
-              {character.character} ({character.actor})
-            </StyledMovieCharactersList>
-          ))}
-        </StyledMovieCharacters>
-      </StyledMovieCards>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+      >
+        <StyledMovieCards>
+          <StyledMovieCharacters>
+            <StyledHeadline>Charaktere:</StyledHeadline>
+            {characters.map((character, index) => (
+              <StyledMovieCharactersList key={index}>
+                {character.character} ({character.actor})
+              </StyledMovieCharactersList>
+            ))}
+          </StyledMovieCharacters>
+        </StyledMovieCards>
+      </motion.div>
 
       {/* Filmbewertung */}
-      <StyledMovieCards>
-        <StyledMovieReview>
-          <StyledHeadline>Bewertungen:{movie.vote_count}</StyledHeadline>
-        </StyledMovieReview>
-      </StyledMovieCards>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+      >
+        <StyledMovieCards>
+          <StyledMovieReview>
+            <StyledHeadline>Bewertungen:{movie.vote_count}</StyledHeadline>
+          </StyledMovieReview>
+        </StyledMovieCards>
+      </motion.div>
     </>
   );
 };
