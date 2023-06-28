@@ -17,6 +17,7 @@ import GlobalStyle from "../../styles";
 import { mcuTimeline } from "../MCUTimeline";
 import ButtonStyle from "../styling/ButtonStyling";
 import { motion } from "framer-motion";
+import FavoriteButton from "../FavoriteButton";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -165,6 +166,7 @@ const MovieCards = () => {
   }
 
   return (
+    // ToggleButton, welcher die Filme nach Phasen- oder nach Chronologischer Reihenfolge sortiert
     <>
       <ButtonStyle onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
         {sortOption === 1
@@ -172,30 +174,37 @@ const MovieCards = () => {
           : "Nach Phasen sortieren"}
       </ButtonStyle>
       <GlobalStyle />
+      {
+        //
+        // ###########################
+        // Sortierte Filme nach Phasen
+        // ###########################
+        //
+      }
       {sortOption === 1 ? (
         <MovieCardsList>
           {/* Filme für jede Phase rendern */}
           {mcuPhases.map((phase, index) => (
             <StyledPhaseCard
               key={`PhaseCard${phase.phase}`}
-              as={motion.div}
+              as={motion.div} // Verwende die motion.div-Komponente zur Animation
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
-              transition={{ delay: index * 0.2 }} // Verzögerung basierend auf dem Index der Phase
+              transition={{ delay: index * 0.2 }} // Verzögerung in Sekunden
             >
               <div className="movies-container">
                 <StyledPhaseHeadline
-                  as={motion.div}
+                  as={motion.div} // Verwende die motion.div-Komponente zur Animation
                   initial={{ opacity: 0, y: -50 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -50 }}
-                  transition={{ delay: index * 0.3 }} // Verzögerung basierend auf dem Index der Phase
+                  transition={{ delay: index * 0.3 }} // Verzögerung in Sekunden
                 >
-                  Phase {phase.phase}
+                  Phase{" "}
+                  {phase.phase /* Phasen Nummer wird automatisch erzeugt */}
                 </StyledPhaseHeadline>
-                {/* Filme für jeden Film in der Phase rendern */}
-                {sortedMovies
+                {sortedMovies // Filme für jeden Film in der Phase rendern
                   .filter((movie) => {
                     const releaseYear = new Date(
                       movie.release_date
@@ -216,10 +225,8 @@ const MovieCards = () => {
                     return releaseYearMovieA - releaseYearMovieB;
                   })
                   .map((movie, index) => (
-                    <Link
-                      href={`/movies/${encodeURIComponent(movie.id)}`}
-                      key={movie.id}
-                    >
+                    <>
+                      {" "}
                       <StyledMovieCard
                         as={motion.div}
                         initial={{ opacity: 0, y: -50 }}
@@ -227,60 +234,67 @@ const MovieCards = () => {
                         exit={{ opacity: 0, y: -50 }}
                         transition={{ delay: index * 0.2 }}
                       >
-                        <StyledMovieImage>
-                          <Image
-                            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                            alt={movie.name}
-                            width={200}
-                            height={300}
-                          />
-                        </StyledMovieImage>
-                        <StyledMovieTitle>
-                          {movie.title}{" "}
-                          {getMovieYearFromTimeline(movie, sortOption)}
-                        </StyledMovieTitle>
-                        <span style={{ display: "none" }}>{index + 1}</span>
+                        <FavoriteButton movieId={movie.id} />
+                        {/* Hinzufügen des FavoriteButtons */}
+                        <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
+                          <StyledMovieImage>
+                            <Image
+                              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                              alt={movie.name}
+                              height={300}
+                              width={200}
+                            />
+                          </StyledMovieImage>
+                          <StyledMovieTitle>
+                            {movie.title}{" "}
+                            {getMovieYearFromTimeline(movie, sortOption)}
+                          </StyledMovieTitle>
+                        </Link>
                       </StyledMovieCard>
-                    </Link>
+                    </>
                   ))}
               </div>
             </StyledPhaseCard>
           ))}
         </MovieCardsList>
       ) : (
+        //
+        // ################################
+        // Sortierte Filme nach Chronologie
+        // ################################
+        //
         <MovieCardsList
-          as={motion.div} // Verwende die motion.div-Komponente anstelle von div
+          as={motion.div} // Verwende die motion.div-Komponente zur Animation
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
         >
           {sortedMovies.map((movie, index) => (
-            <Link
-              href={`/movies/${encodeURIComponent(movie.id)}`}
+            <StyledMovieCard
               key={movie.id}
+              as={motion.div}
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ delay: index * 0.2 }}
             >
-              <StyledMovieCard
-                as={motion.div}
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-                transition={{ delay: index * 0.2 }}
-              >
-                <StyledMovieImage>
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                    alt={movie.name}
-                    width={200}
-                    height={300}
-                  />
-                </StyledMovieImage>
-                <StyledMovieTitle>
-                  {movie.title} {getMovieYearFromTimeline(movie, sortOption)}
-                </StyledMovieTitle>
-
-                <span style={{ display: "none" }}>{index + 1}</span>
-              </StyledMovieCard>
-            </Link>
+              <FavoriteButton movieId={movie.id} />
+              <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
+                <>
+                  <StyledMovieImage>
+                    <Image
+                      src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                      alt={movie.name}
+                      height={300}
+                      width={200}
+                    />
+                  </StyledMovieImage>
+                  <StyledMovieTitle>
+                    {movie.title} {getMovieYearFromTimeline(movie, sortOption)}
+                  </StyledMovieTitle>
+                </>
+              </Link>
+            </StyledMovieCard>
           ))}
         </MovieCardsList>
       )}
