@@ -8,13 +8,16 @@ import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import { MoviesByPhases } from "../SortByPhases";
 import { MoviesByChronologic } from "../SortByChronologic";
+import { StyledText } from "../styling/MovieDetailsStyling";
 
+// Funktion zum Abrufen der Daten von der API
 const fetcher = async (url) => {
   const response = await fetch(url);
   const data = await response.json();
   return data.items;
 };
 
+// Funktion zum Abrufen des Jahres eines Films basierend auf der Option (1 für Release-Jahr, 2 für chronologisches Jahr)
 export const getMovieYearFromTimeline = (movie, option) => {
   if (option === 1) {
     return `(${new Date(movie.release_date).getFullYear()})`;
@@ -33,29 +36,29 @@ const MovieCards = () => {
     fetcher
   );
 
-  const [sortOption, setSortOption] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [sortOption, setSortOption] = useState(1); // Zustand zur Speicherung der Sortierungsoption (1 für Phasen, 2 für chronologisch)
+  const [isLoading, setIsLoading] = useState(true); // Zustand zur Speicherung des Ladezustands
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 1000); // Simuliere eine Ladezeit von 1 Sekunde
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // Bereinige den Timer beim Entfernen der Komponente
   }, []);
 
   if (error) {
-    return <p>Daten konnten nicht abgerufen werden.</p>;
+    return <StyledText>Daten konnten nicht abgerufen werden.</StyledText>; // Zeige eine Fehlermeldung, wenn ein Fehler auftritt
   }
 
   if (isLoading) {
-    return <LoadingScreen />;
+    return <LoadingScreen />; // Zeige einen Ladescreen, solange die Daten geladen werden
   }
 
   const filteredMovies = movies
     ? movies.filter(
         (movie) => new Date(movie.release_date).getFullYear() >= 2008
-      )
+      ) // Filtere die Filme basierend auf dem Veröffentlichungsjahr (ab 2008)
     : [];
 
   const sortedMoviesByPhase = [];
@@ -69,7 +72,7 @@ const MovieCards = () => {
         const releaseYearA = new Date(a.release_date).getFullYear();
         const releaseYearB = new Date(b.release_date).getFullYear();
         return releaseYearA - releaseYearB;
-      });
+      }); // Sortiere die Filme innerhalb der Phase nach Release-Jahr
 
     sortedMoviesByPhase.push(...moviesInPhase);
   });
@@ -94,10 +97,10 @@ const MovieCards = () => {
     } else {
       return 0;
     }
-  });
+  }); // Sortiere die Filme chronologisch basierend auf der mcuTimeline
 
   const sortedMovies =
-    sortOption === 1 ? sortedMoviesByPhase : sortedMoviesChronological;
+    sortOption === 1 ? sortedMoviesByPhase : sortedMoviesChronological; // Verwende die entsprechend sortierten Filme basierend auf der Sortierungsoption
 
   return (
     <>
@@ -105,9 +108,9 @@ const MovieCards = () => {
         Nach {sortOption === 1 ? "Chronologisch" : "Phasen"} sortieren
       </ButtonStyle>
       {sortOption === 1 ? (
-        <MoviesByPhases sortedMovies={sortedMovies} />
+        <MoviesByPhases sortedMovies={sortedMovies} /> // Anzeige der Filme nach Phasen sortiert
       ) : (
-        <MoviesByChronologic sortedMovies={sortedMovies} />
+        <MoviesByChronologic sortedMovies={sortedMovies} /> // Anzeige der Filme chronologisch sortiert
       )}
       <GlobalStyle />
     </>

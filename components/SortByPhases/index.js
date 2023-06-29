@@ -17,25 +17,25 @@ import { getMovieYearFromTimeline } from "../Cards";
 export const MoviesByPhases = ({ sortedMovies }) => {
   return (
     <MovieCardsList>
-      {/* Render movies for each phase */}
+      {/* Rendere Filme für jede Phase */}
       {mcuPhases.map((phase, index) => (
         <StyledPhaseCard
           key={`PhaseCard${phase.phase}`}
-          as={motion.div} // Use the motion.div component for animation
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ delay: index * 0.2 }} // Delay in seconds
+          as={motion.div} // Verwende die motion.div-Komponente für die Animation
+          initial={{ opacity: 0, y: -50 }} // Anfangszustand der Animation
+          animate={{ opacity: 1, y: 0 }} // Animationszustand während der Animation
+          exit={{ opacity: 0, y: -50 }} // Zustand der Animation beim Verlassen
+          transition={{ delay: index * 0.2 }} // Verzögerung der Animation basierend auf dem Index
         >
           <div className="movies-container">
             <StyledPhaseHeadline
-              as={motion.div} // Use the motion.div component for animation
+              as={motion.div}
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
-              transition={{ delay: index * 0.3 }} // Delay in seconds
+              transition={{ delay: index * 0.3 }}
             >
-              Phase {phase.phase /* Automatically generated phase number */}
+              Phase {phase.phase /* Automatisch generierte Phasennummer */}
             </StyledPhaseHeadline>
             {sortedMovies
               .filter((movie) => {
@@ -62,9 +62,11 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                   exit={{ opacity: 0, y: -50 }}
                   transition={{ delay: index * 0.2 }}
                 >
-                  <FavoriteButton movieId={movie.id} />
-                  {/* Add FavoriteButton */}
+                  <FavoriteButton movieId={movie.id} />{" "}
+                  {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
                   <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
+                    {" "}
+                    {/* Verlinke zur Detailseite des Films */}
                     <StyledMovieImage>
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -74,7 +76,8 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                       />
                     </StyledMovieImage>
                     <StyledMovieTitle>
-                      {movie.title} {getMovieYearFromTimeline(movie, 1)}
+                      {movie.title} {getMovieYearFromTimeline(movie, 1)}{" "}
+                      {/* Zeige den Filmtitel und das Jahr an, basierend auf der getMovieYearFromTimeline Funktion */}
                     </StyledMovieTitle>
                   </Link>
                 </StyledMovieCard>

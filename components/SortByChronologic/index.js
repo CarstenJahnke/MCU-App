@@ -14,10 +14,10 @@ import { getMovieYearFromTimeline } from "../Cards";
 export const MoviesByChronologic = ({ sortedMovies }) => {
   return (
     <MovieCardsList
-      as={motion.div} // Use the motion.div component for animation
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
+      as={motion.div} // Verwende die motion.div-Komponente für die Animation
+      initial={{ opacity: 0, y: -50 }} // Anfangszustand der Animation
+      animate={{ opacity: 1, y: 0 }} // Animationszustand während der Animation
+      exit={{ opacity: 0, y: -50 }} // Zustand der Animation beim Verlassen
     >
       {sortedMovies.map((movie, index) => (
         <StyledMovieCard
@@ -26,10 +26,13 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          transition={{ delay: index * 0.2 }}
+          transition={{ delay: index * 0.2 }} // Verzögerung der Animation basierend auf dem Index
         >
-          <FavoriteButton movieId={movie.id} />
+          <FavoriteButton movieId={movie.id} />{" "}
+          {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
           <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
+            {" "}
+            {/* Verlinke zur Detailseite des Films */}
             <>
               <StyledMovieImage>
                 <Image
@@ -40,7 +43,8 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
                 />
               </StyledMovieImage>
               <StyledMovieTitle>
-                {movie.title} {getMovieYearFromTimeline(movie, 1)}
+                {movie.title} {getMovieYearFromTimeline(movie, 1)}{" "}
+                {/* Zeige den Filmtitel und das Jahr an, basierend auf der getMovieYearFromTimeline Funktion */}
               </StyledMovieTitle>
             </>
           </Link>
