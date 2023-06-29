@@ -1,3 +1,4 @@
+import OverlayImage from "./check.svg";
 import styled, { css } from "styled-components";
 
 export const StyledMovieCard = styled.div`
@@ -34,6 +35,10 @@ export const StyledMovieImage = styled.div`
     css`
       opacity: 0.5;
       filter: grayscale(100%);
+      background-image: url(${OverlayImage});
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
     `}
 `;
 

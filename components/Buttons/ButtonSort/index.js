@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { StyledText } from "../../styling/MovieDetailsStyling";
+import { ButtonStyle } from "..";
 
 export const ButtonSortStyle = styled.button`
   ${StyledText}
-  text-align: center;
+  ${ButtonStyle}
   background-image: linear-gradient(
     to bottom,
     #5a0000,
@@ -14,8 +15,8 @@ export const ButtonSortStyle = styled.button`
   );
   border-radius: 20px;
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-  margin-bottom: 5px;
-  margin-top: 20px;
+  margin-bottom: -10px;
+  margin-top: 10px;
   padding: 10px;
   width: 100%;
 `;
