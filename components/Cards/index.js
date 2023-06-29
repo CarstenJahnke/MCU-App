@@ -23,8 +23,8 @@ export const getMovieYearFromTimeline = (movie, option) => {
     return `(${new Date(movie.release_date).getFullYear()})`;
   } else {
     const movieTitle = movie.title ? movie.title.toLowerCase() : "";
-    const movieFromTimeline = mcuTimeline.find((m) =>
-      movieTitle.includes(m.title.toLowerCase())
+    const movieFromTimeline = mcuTimeline.find((movie) =>
+      movieTitle.includes(movie.title.toLowerCase())
     );
     return movieFromTimeline ? `(${movieFromTimeline.year})` : "";
   }
