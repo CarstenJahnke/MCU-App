@@ -1,6 +1,15 @@
 // Importieren der benötigten Abhängigkeiten und Komponenten
-import React, { useState, useEffect } from "react";
+import { apikey } from "../../pages/_app";
+import { mcuPhases } from "../Phases";
+import { mcuTimeline } from "../MCUTimeline";
+import { motion } from "framer-motion";
+import ButtonStyle from "../styling/ButtonStyling";
 import Link from "next/link";
+import FavoriteButton from "../FavoriteButton/FavButton";
+import GlobalStyle from "../../styles";
+import Image from "next/image";
+import LoadingScreen from "../LoadingScreen";
+import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import {
   StyledMovieCard,
@@ -10,15 +19,6 @@ import {
   StyledPhaseCard,
   StyledPhaseHeadline,
 } from "../styling/MovieCardsStyling";
-import Image from "next/image";
-import { apikey } from "../../pages/_app";
-import GlobalStyle from "../../styles";
-import { mcuTimeline } from "../MCUTimeline";
-import ButtonStyle from "../styling/ButtonStyling";
-import { motion } from "framer-motion";
-import FavoriteButton from "../FavoriteButton/FavButton";
-import { mcuPhases } from "../Phases";
-import LoadingScreen from "../LoadingScreen";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -34,7 +34,7 @@ const MovieCards = () => {
     fetcher
   );
 
-  // Zustandsvariablen für
+  // Zustandsvariablen für:
   const [sortOption, setSortOption] = useState(1); // Sortiermodus: 1 - Nach Phasen sortieren, 2 - Nach Chronologie sortieren
   const [isLoading, setIsLoading] = useState(true); // Ladezustand: true - Ladezustand, false - nicht im Ladezustand
 
