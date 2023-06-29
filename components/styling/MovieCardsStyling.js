@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StyledMovieCard = styled.div`
   background-image: linear-gradient(
@@ -21,12 +21,20 @@ export const StyledMovieCard = styled.div`
 `;
 
 export const StyledMovieImage = styled.div`
+  margin: 20px;
   border-radius: 20px;
   display: flex;
-  width: auto;
-  height: auto;
   justify-content: center;
-  margin-bottom: 10px;
+  align-items: center;
+
+  // Als gesehen markiert:
+  position: relative;
+  ${({ isSeen }) =>
+    isSeen &&
+    css`
+      opacity: 0.5;
+      filter: grayscale(100%);
+    `}
 `;
 
 export const StyledMovieTitle = styled.div`
