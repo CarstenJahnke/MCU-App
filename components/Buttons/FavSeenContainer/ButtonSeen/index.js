@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import styled from "styled-components";
-
+import { ButtonSeen, ButtonSeenStyle } from "./ButtonsStyle";
 import Check from "./check.svg";
 import CheckSeen from "./check-seen.svg";
-import { ButtonSeen } from "./ButtonsStyle";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
 
 const SeenButton = ({ movieId }) => {
   const [isSeen, setIsSeen] = useState(false);
@@ -27,25 +25,6 @@ const SeenButton = ({ movieId }) => {
 
     setIsSeen(!isSeen);
   };
-
-  const ButtonSeenStyle = styled.button`
-    text-align: center;
-    background-image: linear-gradient(
-      to bottom,
-      #5a0000,
-      #6b0804,
-      #7d1405,
-      #8f1f04,
-      #a02b00
-    );
-    border-radius: 20px;
-    box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
-    width: 50%;
-    background: none;
-  `;
 
   return (
     <ButtonSeen>

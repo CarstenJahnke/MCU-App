@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import SeenButton from "../Buttons/FavSeenContainer/ButtonSeen";
+import { FavSeenButton } from "../Buttons/FavSeenContainer";
 
 export const MoviesByPhases = ({ sortedMovies }) => {
   return (
@@ -63,8 +64,10 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                   exit={{ opacity: 0, y: -50 }}
                   transition={{ delay: index * 0.2 }}
                 >
-                  <FavoriteButton movieId={movie.id} />
-                  <SeenButton movieId={movie.id} />
+                  <FavSeenButton>
+                    <FavoriteButton movieId={movie.id} />
+                    <SeenButton movieId={movie.id} />
+                  </FavSeenButton>
                   {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
                   <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
                     {" "}

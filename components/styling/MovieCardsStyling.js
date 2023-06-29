@@ -11,7 +11,10 @@ export const StyledMovieCard = styled.div`
   );
   border-radius: 20px;
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
   margin-bottom: 10px;
   width: 250px;
   margin-right: 10px; // Abstand zwischen den Filmen
