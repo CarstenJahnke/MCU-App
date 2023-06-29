@@ -6,7 +6,7 @@ It's easy to lose track of all the phases in which the films were released.
 ### But with the Marvelous Cinematic Unisearch (MCU-App for short) the long search is a thing of the past.
 
 
-🚀 [Marvelous Cinematic Unisearch -App](https://mcu-app.vercel.app/)] 🚀
+🚀 [Marvelous Cinematic Unisearch -App](https://mcu-app.vercel.app/) 🚀
 
 
 In the MCU-App, you will be able to navigate through the phases and the chronological order of the movies. 
