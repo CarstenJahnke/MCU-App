@@ -1,3 +1,4 @@
+import { getMovieYearFromTimeline } from "../Cards";
 import {
   MovieCardsList,
   StyledMovieCard,
@@ -6,13 +7,13 @@ import {
   StyledPhaseHeadline,
 } from "../styling/MovieCardsStyling";
 import { mcuPhases } from "../Phases";
+import { motion } from "framer-motion";
 import { StyledMovieImage } from "../styling/MovieDetailsStyling";
-import FavoriteButton from "../FavoriteButton/FavButton";
+import FavoriteButton from "../Buttons/FavSeenContainer/ButtonFavorite";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { motion } from "framer-motion";
-import { getMovieYearFromTimeline } from "../Cards";
+import SeenButton from "../Buttons/FavSeenContainer/ButtonSeen";
 
 export const MoviesByPhases = ({ sortedMovies }) => {
   return (
@@ -62,7 +63,8 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                   exit={{ opacity: 0, y: -50 }}
                   transition={{ delay: index * 0.2 }}
                 >
-                  <FavoriteButton movieId={movie.id} />{" "}
+                  <FavoriteButton movieId={movie.id} />
+                  <SeenButton movieId={movie.id} />
                   {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
                   <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
                     {" "}

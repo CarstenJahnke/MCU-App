@@ -1,15 +1,16 @@
-import FavoriteButton from "../FavoriteButton/FavButton";
-import Link from "next/link";
-import Image from "next/image";
+import { getMovieYearFromTimeline } from "../Cards";
 import {
   MovieCardsList,
   StyledMovieCard,
   StyledMovieTitle,
 } from "../styling/MovieCardsStyling";
-import { StyledMovieImage } from "../styling/MovieDetailsStyling";
-import React from "react";
 import { motion } from "framer-motion";
-import { getMovieYearFromTimeline } from "../Cards";
+import { StyledMovieImage } from "../styling/MovieDetailsStyling";
+import FavoriteButton from "../Buttons/FavSeenContainer/ButtonFavorite";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import SeenButton from "../Buttons/FavSeenContainer/ButtonSeen";
 
 export const MoviesByChronologic = ({ sortedMovies }) => {
   return (
@@ -29,6 +30,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
           transition={{ delay: index * 0.2 }} // Verzögerung der Animation basierend auf dem Index
         >
           <FavoriteButton movieId={movie.id} />{" "}
+          <SeenButton movieId={movie.id} />{" "}
           {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
           <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
             {" "}
