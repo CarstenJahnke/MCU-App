@@ -49,9 +49,10 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
           transition={{ delay: index * 0.2 }} // Verzögerung der Animation basierend auf dem Index
         >
           <FavSeenButton>
-            <FavoriteButton movieId={movie.id} />
+            <FavoriteButton movieId={movie.id} movieTitle={movie.title} />
             <SeenButton
               movieId={movie.id}
+              movieTitle={movie.title}
               isSeen={seenMovies.includes(movie.id)}
               toggleSeen={toggleSeen}
             />

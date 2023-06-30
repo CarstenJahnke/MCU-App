@@ -84,9 +84,13 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                   transition={{ delay: index * 0.2 }}
                 >
                   <FavSeenButton>
-                    <FavoriteButton movieId={movie.id} />
+                    <FavoriteButton
+                      movieId={movie.id}
+                      movieTitle={movie.title}
+                    />
                     <SeenButton
                       movieId={movie.id}
+                      movieTitle={movie.title}
                       isSeen={seenMovies.includes(movie.id)}
                       toggleSeen={toggleSeen}
                     />
