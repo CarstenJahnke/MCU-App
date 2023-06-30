@@ -98,7 +98,10 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                   {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
                   <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
                     {/* Verlinke zur Detailseite des Films */}
-                    <StyledMovieImage isSeen={seenMovies.includes(movie.id)}>
+                    <StyledMovieImage
+                      isSeen={seenMovies.includes(movie.id)}
+                      style={{ transition: "0.5s" }}
+                    >
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                         alt={movie.name}
