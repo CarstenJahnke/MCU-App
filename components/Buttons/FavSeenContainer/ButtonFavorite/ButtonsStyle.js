@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { ButtonStyle } from "../..";
 
 // Zur Anordnung der Buttons überhalb des Film Posters
 export const ButtonFav = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 5px;
+  text-align: center;
+`;
+export const ButtonFavStyle = styled.button`
+  ${ButtonStyle}
 `;

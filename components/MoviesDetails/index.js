@@ -1,9 +1,5 @@
-// Importieren der benötigten Abhängigkeiten und Komponenten
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import useSWR from "swr";
 import { apikey } from "../../pages/_app";
-import Link from "next/link";
+import { LoadingStyle } from "../styling/LoadingStyling";
 import { motion } from "framer-motion";
 import {
   StyledMovieImageCard,
@@ -17,9 +13,12 @@ import {
   StyledImageHeight,
   StyledMovieReview,
 } from "../styling/MovieDetailsStyling";
+import { useRouter } from "next/router";
 import Image from "next/image";
-import { LoadingStyle } from "../styling/LoadingStyling";
-import ButtonStyle from "../styling/ButtonStyling";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import useSWR from "swr";
+import ButtonSortStyle from "../Buttons/ButtonSort";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -98,7 +97,7 @@ const MovieDetails = () => {
         exit={{ opacity: 0, y: -50 }}
       >
         <Link href={`../..`}>
-          <ButtonStyle>Zurück zur Startseite</ButtonStyle>
+          <ButtonSortStyle>Zurück zur Startseite</ButtonSortStyle>
         </Link>
       </motion.div>
 

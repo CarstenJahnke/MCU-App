@@ -1,14 +1,14 @@
 import { apikey } from "../../pages/_app";
 import { mcuPhases } from "../Phases";
 import { mcuTimeline } from "../MCUTimeline";
-import ButtonStyle from "../styling/ButtonStyling";
+import { MoviesByPhases } from "../SortByPhases";
+import { MoviesByChronologic } from "../SortByChronologic";
+import { StyledText } from "../styling/MovieDetailsStyling";
+import ButtonSortStyle from "../Buttons/ButtonSort";
 import GlobalStyle from "../../styles";
 import LoadingScreen from "../LoadingScreen";
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
-import { MoviesByPhases } from "../SortByPhases";
-import { MoviesByChronologic } from "../SortByChronologic";
-import { StyledText } from "../styling/MovieDetailsStyling";
 
 // Funktion zum Abrufen der Daten von der API
 const fetcher = async (url) => {
@@ -104,9 +104,9 @@ const MovieCards = () => {
 
   return (
     <>
-      <ButtonStyle onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
+      <ButtonSortStyle onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
         Nach {sortOption === 1 ? "Chronologisch" : "Phasen"} sortieren
-      </ButtonStyle>
+      </ButtonSortStyle>
       {sortOption === 1 ? (
         <MoviesByPhases sortedMovies={sortedMovies} /> // Anzeige der Filme nach Phasen sortiert
       ) : (

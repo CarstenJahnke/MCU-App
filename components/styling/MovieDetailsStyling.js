@@ -51,7 +51,7 @@ export const StyledMovieImage = styled.div`
 `;
 
 export const StyledImageWidth = 300;
-export const StyledImageHeight = 400;
+export const StyledImageHeight = 425;
 
 export const StyledMovieDescription = styled.div`
   ${StyledCard}

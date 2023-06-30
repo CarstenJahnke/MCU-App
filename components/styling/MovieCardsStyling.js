@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import OverlayImage from "./check.svg";
+import styled, { css } from "styled-components";
 
 export const StyledMovieCard = styled.div`
   background-image: linear-gradient(
@@ -11,19 +12,34 @@ export const StyledMovieCard = styled.div`
   );
   border-radius: 20px;
   box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
   margin-bottom: 10px;
   width: 250px;
   margin-right: 10px; // Abstand zwischen den Filmen
 `;
 
 export const StyledMovieImage = styled.div`
+  margin: 20px;
   border-radius: 20px;
   display: flex;
-  width: auto;
-  height: auto;
   justify-content: center;
-  margin-bottom: 10px;
+  align-items: center;
+
+  // Als gesehen markiert:
+  position: relative;
+  ${({ isSeen }) =>
+    isSeen &&
+    css`
+      opacity: 0.5;
+      filter: grayscale(100%);
+      background-image: url(${OverlayImage});
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    `}
 `;
 
 export const StyledMovieTitle = styled.div`
