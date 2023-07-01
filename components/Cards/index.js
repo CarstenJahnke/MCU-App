@@ -108,9 +108,9 @@ const MovieCards = () => {
         Nach {sortOption === 1 ? "Chronologisch" : "Phasen"} sortieren
       </ButtonSortStyle>
       {sortOption === 1 ? (
-        <MoviesByPhases sortedMovies={sortedMovies} /> // Anzeige der Filme nach Phasen sortiert
+        <MoviesByPhases sortedMovies={sortedMovies} />
       ) : (
-        <MoviesByChronologic sortedMovies={sortedMovies} /> // Anzeige der Filme chronologisch sortiert
+        <MoviesByChronologic sortedMovies={sortedMovies} />
       )}
       <GlobalStyle />
     </>
