@@ -6,7 +6,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import Star from "./star.svg";
 import StarFilled from "./star-filled.svg";
-import "react-toastify/dist/ReactToastify.css";
+import GlobalStyle from "../../../../styles";
 
 const CustomProgressBar = ({ progress }) => {
   return (

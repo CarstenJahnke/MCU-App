@@ -6,7 +6,6 @@ import Check from "./check.svg";
 import CheckSeen from "./check-seen.svg";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
 
 const CustomProgressBar = ({ progress }) => {
   return (
