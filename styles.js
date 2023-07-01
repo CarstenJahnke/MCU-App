@@ -301,7 +301,7 @@ const GlobalStyle = createGlobalStyle`
 .Toastify__progress-bar--rtl {
   right: 0;
   left: initial;
-  transform-origin: right;
+  transform-origin: left;
 }
 
 .Toastify__spinner {

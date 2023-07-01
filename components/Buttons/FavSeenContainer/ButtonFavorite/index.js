@@ -31,7 +31,7 @@ const FavoriteButton = ({ movieId, movieTitle }) => {
     if (isFavorite) {
       const updatedFavorites = favorites.filter((id) => id !== movieId);
       localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-      toast.info(`"${movieTitle}" wurde von den Favoriten entfernt`);
+      toast.warning(`"${movieTitle}" wurde von den Favoriten entfernt`);
     } else {
       favorites.push(movieId);
       localStorage.setItem("favorites", JSON.stringify(favorites));

@@ -31,7 +31,7 @@ const SeenButton = ({ movieId, movieTitle, isSeen, toggleSeen }) => {
     if (!localIsSeen) {
       toast.success(`'${movieTitle}' als gesehen markiert`);
     } else {
-      toast.info(`'${movieTitle}' von gesehen entfernt`);
+      toast.warning(`'${movieTitle}' von gesehen entfernt`);
     }
   };
 
