@@ -42,6 +42,16 @@ export const StyledMovieImage = styled.div`
     `}
 `;
 
+export const StyledNoFavoritesHeadline = styled.div`
+  color: #ffb833;
+  display: flex;
+  font-size: 18px;
+  justify-content: center;
+  margin: 100px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
 export const StyledMovieTitle = styled.div`
   color: #ffb833;
   display: flex;
@@ -58,6 +68,28 @@ export const MovieCardsList = styled.ul`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+`;
+
+export const MovieCardsListRandom = styled.ul`
+  align-items: center;
+  color: #ffb833;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  padding-inline: 0px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  overflow-x: auto; // Horizontales Scrollen
+`;
+
+export const MovieCardsListRandomTitle = styled.ul`
+  color: #ffb833;
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  margin: 5px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 export const StyledPhaseHeadline = styled.div`

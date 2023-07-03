@@ -4,6 +4,7 @@ import {
   MovieCardsList,
   StyledMovieCard,
   StyledMovieTitle,
+  StyledNoFavoritesHeadline,
   StyledPhaseCard,
   StyledPhaseHeadline,
 } from "../styling/MovieCardsStyling";
@@ -35,7 +36,13 @@ export const MoviesByPhases = ({ sortedMovies }) => {
     setSeenMovies(updatedSeenMovies);
     localStorage.setItem("watched", JSON.stringify(updatedSeenMovies));
   };
-
+  if (sortedMovies.length === 0) {
+    return (
+      <StyledNoFavoritesHeadline>
+        Keine Favoriten vorhanden
+      </StyledNoFavoritesHeadline>
+    );
+  }
   return (
     <MovieCardsList>
       {/* Rendere Filme für jede Phase */}

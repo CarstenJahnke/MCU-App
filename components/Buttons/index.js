@@ -2,6 +2,8 @@ import styled, { css, keyframes } from "styled-components";
 
 export const Button = styled.div`
   text-align: center;
+  display: flex;
+  justify-content: flex-start;
 `;
 
 const fillAnimation = keyframes`
