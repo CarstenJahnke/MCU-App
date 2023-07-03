@@ -2,8 +2,11 @@ import { FavSeenButton } from "../Buttons/FavSeenContainer";
 import { getMovieYearFromTimeline } from "../Cards";
 import {
   MovieCardsList,
+  MovieCardsListRandom,
+  MovieCardsListRandomTitle,
   StyledMovieCard,
   StyledMovieTitle,
+  StyledNoFavoritesHeadline,
 } from "../styling/MovieCardsStyling";
 import { motion } from "framer-motion";
 import { StyledMovieImage } from "../styling/MovieCardsStyling";
@@ -32,12 +35,23 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
     setSeenMovies(updatedSeenMovies);
     localStorage.setItem("watched", JSON.stringify(updatedSeenMovies));
   };
+
+  if (sortedMovies.length === 0) {
+    return (
+      <>
+        <StyledNoFavoritesHeadline>
+          Keine Favoriten vorhanden
+        </StyledNoFavoritesHeadline>
+      </>
+    );
+  }
+
   return (
     <MovieCardsList
-      as={motion.div} // Verwende die motion.div-Komponente für die Animation
-      initial={{ opacity: 0, y: -50 }} // Anfangszustand der Animation
-      animate={{ opacity: 1, y: 0 }} // Animationszustand während der Animation
-      exit={{ opacity: 0, y: -50 }} // Zustand der Animation beim Verlassen
+      as={motion.div}
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -50 }}
     >
       {sortedMovies.map((movie, index) => (
         <StyledMovieCard
@@ -46,7 +60,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          transition={{ delay: index * 0.2 }} // Verzögerung der Animation basierend auf dem Index
+          transition={{ delay: index * 0.2 }}
         >
           <FavSeenButton>
             <FavoriteButton movieId={movie.id} movieTitle={movie.title} />
@@ -57,10 +71,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
               toggleSeen={toggleSeen}
             />
           </FavSeenButton>
-          {/* Füge den FavoriteButton hinzu und übergebe die movieId */}
           <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
-            {" "}
-            {/* Verlinke zur Detailseite des Films */}
             <>
               <StyledMovieImage isSeen={seenMovies.includes(movie.id)}>
                 <Image
@@ -71,8 +82,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
                 />
               </StyledMovieImage>
               <StyledMovieTitle>
-                {movie.title} {getMovieYearFromTimeline(movie, 1)}{" "}
-                {/* Zeige den Filmtitel und das Jahr an, basierend auf der getMovieYearFromTimeline Funktion */}
+                {movie.title} {getMovieYearFromTimeline(movie, 1)}
               </StyledMovieTitle>
             </>
           </Link>

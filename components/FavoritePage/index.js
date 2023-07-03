@@ -59,54 +59,63 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
   const filteredMovies = sortedMovies.filter((movie) =>
     favoriteMovies.includes(movie.id)
   );
+  if (filteredMovies.length === 0) {
+    return (
+      <MovieCardsList>
+        <p>Keine favorisierten Filme</p>
+      </MovieCardsList>
+    );
+  }
 
   return (
-    <MovieCardsList
-      as={motion.div}
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-    >
-      {filteredMovies.map((movie, index) => (
-        <StyledMovieCard
-          key={movie.id}
-          as={motion.div}
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-          transition={{ delay: index * 0.2 }}
-        >
-          <FavSeenButton>
-            <FavoriteButton
-              movieId={movie.id}
-              movieTitle={movie.title}
-              isFavorite={favoriteMovies.includes(movie.id)}
-              toggleFavorite={toggleFavorite}
-            />
-            <SeenButton
-              movieId={movie.id}
-              movieTitle={movie.title}
-              isSeen={seenMovies.includes(movie.id)}
-              toggleSeen={toggleSeen}
-            />
-          </FavSeenButton>
-          <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
-            <>
-              <StyledMovieImage isSeen={seenMovies.includes(movie.id)}>
-                <Image
-                  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                  alt={movie.name}
-                  height={300}
-                  width={200}
-                />
-              </StyledMovieImage>
-              <StyledMovieTitle>
-                {movie.title} {getMovieYearFromTimeline(movie, 1)}
-              </StyledMovieTitle>
-            </>
-          </Link>
-        </StyledMovieCard>
-      ))}
-    </MovieCardsList>
+    <>
+      <MovieCardsList
+        as={motion.div}
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+      >
+        {filteredMovies.map((movie, index) => (
+          <StyledMovieCard
+            key={movie.id}
+            as={motion.div}
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            transition={{ delay: index * 0.2 }}
+          >
+            <FavSeenButton>
+              <FavoriteButton
+                movieId={movie.id}
+                movieTitle={movie.title}
+                isFavorite={favoriteMovies.includes(movie.id)}
+                toggleFavorite={toggleFavorite}
+              />
+              <SeenButton
+                movieId={movie.id}
+                movieTitle={movie.title}
+                isSeen={seenMovies.includes(movie.id)}
+                toggleSeen={toggleSeen}
+              />
+            </FavSeenButton>
+            <Link href={`/movies/${encodeURIComponent(movie.id)}`}>
+              <>
+                <StyledMovieImage isSeen={seenMovies.includes(movie.id)}>
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    alt={movie.name}
+                    height={300}
+                    width={200}
+                  />
+                </StyledMovieImage>
+                <StyledMovieTitle>
+                  {movie.title} {getMovieYearFromTimeline(movie, 1)}
+                </StyledMovieTitle>
+              </>
+            </Link>
+          </StyledMovieCard>
+        ))}
+      </MovieCardsList>
+    </>
   );
 };
