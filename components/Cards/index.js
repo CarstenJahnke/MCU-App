@@ -10,6 +10,7 @@ import LoadingScreen from "../LoadingScreen";
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
+import Quiz from "../Quiz";
 
 // Funktion zum Abrufen der Daten von der API
 const fetcher = async (url) => {
@@ -43,6 +44,7 @@ const MovieCards = () => {
   const [sortOption, setSortOption] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showFavorites, setShowFavorites] = useState(false); // Zustand zur Speicherung des Favoritenanzeigen-Status
+  const [showQuiz, setShowQuiz] = useState(false);
 
   // Effekt-Hook zum Setzen des Ladezustands
   useEffect(() => {
@@ -117,6 +119,15 @@ const MovieCards = () => {
     setShowFavorites(!showFavorites); // Toggle den Favoritenanzeigen-Status
   };
 
+  // Funktion zum Umschalten des Quiz anzeigen
+  const handleQuizButtonClick = () => {
+    setShowQuiz(true);
+  };
+
+  if (showQuiz) {
+    return <Quiz />;
+  }
+
   // Filtern der Filme basierend auf den Favoriten
   const filteredMoviesByFavorites = showFavorites
     ? sortedMovies.filter((movie) => {
@@ -138,6 +149,10 @@ const MovieCards = () => {
         {/* Button zum Umschalten der Favoritenanzeigen */}
         <ButtonGeneralStyle onClick={toggleFavorites}>
           {showFavorites ? "Alle anzeigen" : "Favoriten"}
+        </ButtonGeneralStyle>
+        {/* Button zum Anzeigen des Quiz */}
+        <ButtonGeneralStyle onClick={handleQuizButtonClick}>
+          Quiz
         </ButtonGeneralStyle>
       </ButtonGeneralContainer>
       {/* Anzeige der Filme basierend auf der Sortieroption */}
