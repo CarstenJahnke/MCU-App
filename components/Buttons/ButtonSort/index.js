@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { StyledText } from "../../styling/MovieDetailsStyling";
 import { ButtonStyle } from "..";
 
-export const ButtonSortStyle = styled.button`
+export const ButtonGeneralStyle = styled.button`
   ${StyledText}
   ${ButtonStyle}
   background-image: linear-gradient(
@@ -21,4 +21,4 @@ export const ButtonSortStyle = styled.button`
   width: 100%;
 `;
 
-export default ButtonSortStyle;
+export default ButtonGeneralStyle;

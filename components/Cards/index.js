@@ -4,7 +4,7 @@ import { mcuTimeline } from "../MCUTimeline";
 import { MoviesByPhases } from "../SortByPhases";
 import { MoviesByChronologic } from "../SortByChronologic";
 import { StyledText } from "../styling/MovieDetailsStyling";
-import ButtonSortStyle from "../Buttons/ButtonSort";
+import { ButtonGeneralStyle } from "../Buttons/ButtonSort";
 import GlobalStyle from "../../styles";
 import LoadingScreen from "../LoadingScreen";
 import React, { useState, useEffect } from "react";
@@ -36,29 +36,30 @@ const MovieCards = () => {
     fetcher
   );
 
-  const [sortOption, setSortOption] = useState(1); // Zustand zur Speicherung der Sortierungsoption (1 für Phasen, 2 für chronologisch)
-  const [isLoading, setIsLoading] = useState(true); // Zustand zur Speicherung des Ladezustands
+  const [sortOption, setSortOption] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showFavorites, setShowFavorites] = useState(false); // Zustand zur Speicherung des Favoritenanzeigen-Status
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // Simuliere eine Ladezeit von 1 Sekunde
+    }, 1000);
 
-    return () => clearTimeout(timer); // Bereinige den Timer beim Entfernen der Komponente
+    return () => clearTimeout(timer);
   }, []);
 
   if (error) {
-    return <StyledText>Daten konnten nicht abgerufen werden.</StyledText>; // Zeige eine Fehlermeldung, wenn ein Fehler auftritt
+    return <StyledText>Daten konnten nicht abgerufen werden.</StyledText>;
   }
 
   if (isLoading) {
-    return <LoadingScreen />; // Zeige einen Ladescreen, solange die Daten geladen werden
+    return <LoadingScreen />;
   }
 
   const filteredMovies = movies
     ? movies.filter(
         (movie) => new Date(movie.release_date).getFullYear() >= 2008
-      ) // Filtere die Filme basierend auf dem Veröffentlichungsjahr (ab 2008)
+      )
     : [];
 
   const sortedMoviesByPhase = [];
@@ -72,7 +73,7 @@ const MovieCards = () => {
         const releaseYearA = new Date(a.release_date).getFullYear();
         const releaseYearB = new Date(b.release_date).getFullYear();
         return releaseYearA - releaseYearB;
-      }); // Sortiere die Filme innerhalb der Phase nach Release-Jahr
+      });
 
     sortedMoviesByPhase.push(...moviesInPhase);
   });
@@ -97,20 +98,37 @@ const MovieCards = () => {
     } else {
       return 0;
     }
-  }); // Sortiere die Filme chronologisch basierend auf der mcuTimeline
+  });
 
   const sortedMovies =
-    sortOption === 1 ? sortedMoviesByPhase : sortedMoviesChronological; // Verwende die entsprechend sortierten Filme basierend auf der Sortierungsoption
+    sortOption === 1 ? sortedMoviesByPhase : sortedMoviesChronological;
+
+  const toggleFavorites = () => {
+    setShowFavorites(!showFavorites); // Toggle den Favoritenanzeigen-Status
+  };
+
+  const filteredMoviesByFavorites = showFavorites
+    ? sortedMovies.filter((movie) => {
+        const movieId = movie.id.toString();
+        return localStorage.getItem("favorites")?.includes(movieId);
+      })
+    : sortedMovies;
 
   return (
     <>
-      <ButtonSortStyle onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}>
+      <ButtonGeneralStyle
+        onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
+      >
         Nach {sortOption === 1 ? "Chronologisch" : "Phasen"} sortieren
-      </ButtonSortStyle>
+      </ButtonGeneralStyle>
+      {/* Verwende showFavorites, um den Text des Buttons dynamisch zu ändern */}
+      <ButtonGeneralStyle onClick={toggleFavorites}>
+        {showFavorites ? "Alle anzeigen" : "Favoriten"}
+      </ButtonGeneralStyle>
       {sortOption === 1 ? (
-        <MoviesByPhases sortedMovies={sortedMovies} />
+        <MoviesByPhases sortedMovies={filteredMoviesByFavorites} /> //Verwende filteredMoviesByFavorites anstelle von sortedMovies
       ) : (
-        <MoviesByChronologic sortedMovies={sortedMovies} />
+        <MoviesByChronologic sortedMovies={filteredMoviesByFavorites} /> //Verwende filteredMoviesByFavorites anstelle von sortedMovies
       )}
       <GlobalStyle />
     </>
