@@ -133,7 +133,7 @@ const MovieCards = () => {
         <ButtonGeneralStyle
           onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
         >
-          {sortOption === 1 ? "Chronologische" : "Phasen"} Sortierung
+          {sortOption === 1 ? "Chronologisch" : "Phasen"}
         </ButtonGeneralStyle>
         {/* Button zum Umschalten der Favoritenanzeigen */}
         <ButtonGeneralStyle onClick={toggleFavorites}>
