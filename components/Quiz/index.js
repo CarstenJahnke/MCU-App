@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { initialQuestions } from "./Questions";
+import { motion } from "framer-motion";
+import {
+  QuizButton,
+  QuizButtonContainer,
+  QuizCard,
+  QuizHeadline,
+  QuizTimer,
+  QuizTitle,
+} from "../styling/QuizStyling";
 
 const Timer = ({ startTime }) => {
   const [currentTime, setCurrentTime] = useState(Date.now());
@@ -19,12 +28,10 @@ const Timer = ({ startTime }) => {
   const seconds = elapsedTime % 60;
 
   return (
-    <div>
-      <p>
-        Zeit: {minutes < 10 ? "0" + minutes : minutes}:
-        {seconds < 10 ? "0" + seconds : seconds}
-      </p>
-    </div>
+    <QuizTimer>
+      Zeit: {minutes < 10 ? "0" + minutes : minutes}:
+      {seconds < 10 ? "0" + seconds : seconds}
+    </QuizTimer>
   );
 };
 
@@ -37,12 +44,20 @@ const QuizComponent = () => {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  const [showTimer, setShowTimer] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false); // Neue Variable für die Anzeige der Fragen
 
   useEffect(() => {
     if (quizStarted) {
       const shuffledQuestions = shuffleArray(initialQuestions);
       setQuestions(shuffledQuestions);
-      setStartTime(Date.now());
+
+      // Starte den Timer nach 3 Sekunden
+      setTimeout(() => {
+        setStartTime(Date.now());
+        setShowTimer(true);
+        setShowQuiz(true); // Zeige die Fragen nach Ablauf der 3 Sekunden an
+      }, 3000);
     }
   }, [quizStarted]);
 
@@ -70,6 +85,8 @@ const QuizComponent = () => {
     setCurrentQuestionIndex(0);
     setCorrectAnswers(0);
     setSelectedAnswerIndex(null);
+    setShowTimer(false);
+    setShowQuiz(false); // Setze die Variable zurück, um die Fragen beim Neustart auszublenden
   };
 
   const handleAnswerClick = (answerIndex) => {
@@ -95,46 +112,73 @@ const QuizComponent = () => {
     }, 1500);
   };
 
-  //   const handlePrevQuestion = () => {
-  //     setSelectedAnswerIndex(null);
-  //     setCurrentQuestionIndex(currentQuestionIndex - 1);
-  //   };
-
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div>
-      <h1>Quiz</h1>
+    <>
+      {/* Zurück-Button zur Startseite */}
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+      >
+        {/* <Link href={`../..`}>
+          <ButtonGeneralContainer>
+            <ButtonGeneralStyle>
+              BUTTON FIXEN --- Zurück zur Übersicht
+            </ButtonGeneralStyle>
+          </ButtonGeneralContainer>
+        </Link> */}
+      </motion.div>
       {!quizStarted ? (
-        <div>
-          <h2>MCU Quiz</h2>
-          <button onClick={handleStartQuiz}>Start</button>
-        </div>
+        <>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+          >
+            <QuizTitle>MCU Quiz</QuizTitle>
+            <QuizButtonContainer>
+              <QuizButton onClick={handleStartQuiz}>Start</QuizButton>
+            </QuizButtonContainer>
+          </motion.div>
+        </>
       ) : (
         <>
           {!quizCompleted ? (
-            <div>
-              {currentQuestion && (
+            <>
+              {showTimer ? (
+                <Timer startTime={startTime} />
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                >
+                  <QuizTitle>Das Quiz beginnt in 3 Sekunden...</QuizTitle>
+                </motion.div>
+              )}
+
+              {showQuiz && currentQuestion && (
                 <>
-                  <h2>Frage {currentQuestionIndex + 1}</h2>
-                  <h3>{currentQuestion.question}</h3>
+                  <QuizTitle>Frage {currentQuestionIndex + 1}</QuizTitle>
+                  <QuizHeadline>{currentQuestion.question}</QuizHeadline>
                 </>
               )}
-              <div>
-                {currentQuestion &&
+              <QuizButtonContainer>
+                {showQuiz &&
+                  currentQuestion &&
                   currentQuestion.answers
                     .map((answer, index) => ({ answer, index }))
                     .sort(() => Math.random() - 0.5)
                     .map(({ answer, index }) => (
-                      <button
+                      <QuizButton
                         key={index}
                         onClick={() => handleAnswerClick(index)}
                         style={{
                           backgroundColor:
-                            selectedAnswerIndex === index
-                              ? "yellow"
-                              : selectedAnswerIndex !== null &&
-                                index === currentQuestion.correctAnswerIndex
+                            selectedAnswerIndex !== null &&
+                            index === currentQuestion.correctAnswerIndex
                               ? "green"
                               : selectedAnswerIndex !== null &&
                                 index !== currentQuestion.correctAnswerIndex
@@ -144,12 +188,13 @@ const QuizComponent = () => {
                         disabled={selectedAnswerIndex !== null}
                       >
                         {answer}
-                      </button>
+                      </QuizButton>
                     ))}
-              </div>
+              </QuizButtonContainer>
               {selectedAnswerIndex !== null && (
                 <>
-                  {currentQuestion &&
+                  {showQuiz &&
+                    currentQuestion &&
                     (selectedAnswerIndex ===
                     currentQuestion.correctAnswerIndex ? (
                       <p>Richtig!</p>
@@ -165,11 +210,7 @@ const QuizComponent = () => {
                     ))}
                 </>
               )}
-              {/* {currentQuestionIndex > 0 && (
-                <button onClick={handlePrevQuestion}>Zurück</button>
-              )} */}
-              {startTime && <Timer startTime={startTime} />}
-            </div>
+            </>
           ) : (
             <div>
               <h2>Quiz beendet</h2>
@@ -182,7 +223,7 @@ const QuizComponent = () => {
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 
