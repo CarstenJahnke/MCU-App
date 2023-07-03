@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const FavSeenButton = styled.div`
+export const ButtonGeneralContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
 `;

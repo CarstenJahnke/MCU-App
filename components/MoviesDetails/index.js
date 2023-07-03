@@ -18,7 +18,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import ButtonSortStyle from "../Buttons/ButtonSort";
+import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
+import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
 
 // Funktion zum Abrufen der Daten von der URL, die Elemente aus der Antwort zurück gibt
 const fetcher = async (url) => {
@@ -33,7 +34,7 @@ const fetchCharacters = async (movieId) => {
     `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apikey}`
   );
   const data = await response.json();
-  const mainCast = data.cast.filter((cast) => cast.order <= 12);
+  const mainCast = data.cast?.filter((cast) => cast.order <= 12) || [];
   return mainCast.map((cast) => ({
     character: cast.character,
     actor: cast.name,
@@ -97,7 +98,9 @@ const MovieDetails = () => {
         exit={{ opacity: 0, y: -50 }}
       >
         <Link href={`../..`}>
-          <ButtonSortStyle>Zurück zur Startseite</ButtonSortStyle>
+          <ButtonGeneralContainer>
+            <ButtonGeneralStyle>Zurück zur Übersicht</ButtonGeneralStyle>
+          </ButtonGeneralContainer>
         </Link>
       </motion.div>
 

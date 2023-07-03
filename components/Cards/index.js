@@ -4,11 +4,12 @@ import { mcuTimeline } from "../MCUTimeline";
 import { MoviesByPhases } from "../SortByPhases";
 import { MoviesByChronologic } from "../SortByChronologic";
 import { StyledText } from "../styling/MovieDetailsStyling";
-import { ButtonGeneralStyle } from "../Buttons/ButtonSort";
+import { ButtonGeneralStyle } from "../Buttons/ButtonGeneralStyle";
 import GlobalStyle from "../../styles";
 import LoadingScreen from "../LoadingScreen";
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
+import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
 
 // Funktion zum Abrufen der Daten von der API
 const fetcher = async (url) => {
@@ -30,16 +31,20 @@ export const getMovieYearFromTimeline = (movie, option) => {
   }
 };
 
+// MovieCards-Komponente
 const MovieCards = () => {
+  // Verwendung von useSWR-Hook zum Abrufen der Daten von der API
   const { data: movies, error } = useSWR(
     `https://api.themoviedb.org/3/list/8258181?api_key=${apikey}&language=de`,
     fetcher
   );
 
+  // Zustandsvariablen
   const [sortOption, setSortOption] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showFavorites, setShowFavorites] = useState(false); // Zustand zur Speicherung des Favoritenanzeigen-Status
 
+  // Effekt-Hook zum Setzen des Ladezustands
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -56,12 +61,14 @@ const MovieCards = () => {
     return <LoadingScreen />;
   }
 
+  // Filtern der Filme basierend auf dem Veröffentlichungsjahr
   const filteredMovies = movies
     ? movies.filter(
         (movie) => new Date(movie.release_date).getFullYear() >= 2008
       )
     : [];
 
+  // Sortieren der Filme nach Phasen
   const sortedMoviesByPhase = [];
   mcuPhases.forEach((phase) => {
     const moviesInPhase = filteredMovies
@@ -78,6 +85,7 @@ const MovieCards = () => {
     sortedMoviesByPhase.push(...moviesInPhase);
   });
 
+  // Sortieren der Filme chronologisch
   const sortedMoviesChronological = sortedMoviesByPhase.sort((a, b) => {
     const movieATitle = a.title;
     const movieBTitle = b.title;
@@ -100,13 +108,16 @@ const MovieCards = () => {
     }
   });
 
+  // Sortieren der Filme basierend auf der gewählten Option
   const sortedMovies =
     sortOption === 1 ? sortedMoviesByPhase : sortedMoviesChronological;
 
+  // Funktion zum Umschalten der Favoritenanzeigen
   const toggleFavorites = () => {
     setShowFavorites(!showFavorites); // Toggle den Favoritenanzeigen-Status
   };
 
+  // Filtern der Filme basierend auf den Favoriten
   const filteredMoviesByFavorites = showFavorites
     ? sortedMovies.filter((movie) => {
         const movieId = movie.id.toString();
@@ -114,21 +125,26 @@ const MovieCards = () => {
       })
     : sortedMovies;
 
+  // JSX-Elemente der MovieCards-Komponente
   return (
     <>
-      <ButtonGeneralStyle
-        onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
-      >
-        Nach {sortOption === 1 ? "Chronologisch" : "Phasen"} sortieren
-      </ButtonGeneralStyle>
-      {/* Verwende showFavorites, um den Text des Buttons dynamisch zu ändern */}
-      <ButtonGeneralStyle onClick={toggleFavorites}>
-        {showFavorites ? "Alle anzeigen" : "Favoriten"}
-      </ButtonGeneralStyle>
+      {/* Button zum Umschalten der Sortieroption */}
+      <ButtonGeneralContainer>
+        <ButtonGeneralStyle
+          onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
+        >
+          {sortOption === 1 ? "Chronologische" : "Phasen"} Sortierung
+        </ButtonGeneralStyle>
+        {/* Button zum Umschalten der Favoritenanzeigen */}
+        <ButtonGeneralStyle onClick={toggleFavorites}>
+          {showFavorites ? "Alle anzeigen" : "Favoriten"}
+        </ButtonGeneralStyle>
+      </ButtonGeneralContainer>
+      {/* Anzeige der Filme basierend auf der Sortieroption */}
       {sortOption === 1 ? (
-        <MoviesByPhases sortedMovies={filteredMoviesByFavorites} /> //Verwende filteredMoviesByFavorites anstelle von sortedMovies
+        <MoviesByPhases sortedMovies={filteredMoviesByFavorites} />
       ) : (
-        <MoviesByChronologic sortedMovies={filteredMoviesByFavorites} /> //Verwende filteredMoviesByFavorites anstelle von sortedMovies
+        <MoviesByChronologic sortedMovies={filteredMoviesByFavorites} />
       )}
       <GlobalStyle />
     </>

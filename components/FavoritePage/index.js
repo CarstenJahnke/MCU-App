@@ -14,10 +14,13 @@ import Link from "next/link";
 import React from "react";
 import SeenButton from "../Buttons/FavSeenContainer/ButtonSeen";
 
+// Komponente MoviesByChronologic
 export const MoviesByChronologic = ({ sortedMovies }) => {
+  // Zustandsvariablen
   const [seenMovies, setSeenMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
+  // Effekt-Hook zum Setzen der Zustandsvariablen basierend auf den im Local Storage gespeicherten Daten
   useEffect(() => {
     const seen = JSON.parse(localStorage.getItem("watched")) || [];
     setSeenMovies(seen);
@@ -26,6 +29,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
     setFavoriteMovies(favorites);
   }, []);
 
+  // Funktion zum Umschalten des "gesehen"-Status eines Films
   const toggleSeen = (movieId) => {
     let updatedSeenMovies = [...seenMovies];
     if (updatedSeenMovies.includes(movieId)) {
@@ -37,6 +41,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
     localStorage.setItem("watched", JSON.stringify(updatedSeenMovies));
   };
 
+  // Funktion zum Umschalten des Favoritenstatus eines Films
   const toggleFavorite = (movieId) => {
     let updatedFavoriteMovies = [...favoriteMovies];
     if (updatedFavoriteMovies.includes(movieId)) {
@@ -50,6 +55,7 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
     localStorage.setItem("favorites", JSON.stringify(updatedFavoriteMovies));
   };
 
+  // Filtern der Filme basierend auf den Favoriten
   const filteredMovies = sortedMovies.filter((movie) =>
     favoriteMovies.includes(movie.id)
   );

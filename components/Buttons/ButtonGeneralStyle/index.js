@@ -18,7 +18,7 @@ export const ButtonGeneralStyle = styled.button`
   margin-bottom: -10px;
   margin-top: 10px;
   padding: 10px;
-  width: 100%;
+  width: 50%;
 `;
 
 export default ButtonGeneralStyle;
