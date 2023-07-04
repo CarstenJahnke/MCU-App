@@ -13,6 +13,7 @@ import {
   QuizHeadlineEnd,
   QuizNumber,
   QuizResult,
+  QuizText,
   QuizTimeAndNumber,
   QuizTimer,
   QuizTitle,
@@ -220,7 +221,7 @@ const QuizComponent = () => {
                   currentQuestion &&
                   currentQuestion.answers
                     .map((answer, index) => ({ answer, index }))
-                    .sort(() => Math.random() - 0.5)
+                    // .sort(() => Math.random() - 0.5)
                     .map(({ answer, index }) => (
                       <QuizButton
                         key={index}
@@ -257,16 +258,19 @@ const QuizComponent = () => {
           ) : (
             <QuizResult>
               <QuizTitle>Quiz beendet</QuizTitle>
-              <p>Korrekte Antworten: {correctAnswers}</p>
+              <QuizText>Ergebnis: {correctAnswers} von 10 ✅</QuizText>
               {endTime && startTime && (
-                <p>Zeit: {Math.floor((endTime - startTime) / 1000)} Sekunden</p>
+                <p>
+                  Deine Zeit: {Math.floor((endTime - startTime) / 1000)}{" "}
+                  Sekunden.
+                </p>
               )}
-              <QuizButtonBack onClick={handleRestartQuiz}>
-                Neustart
-              </QuizButtonBack>
-              <QuizButtonStart onClick={goBack}>Zurück</QuizButtonStart>
+              <QuizButtonStart onClick={handleRestartQuiz}>
+                Neuer Versuch
+              </QuizButtonStart>
             </QuizResult>
           )}
+          <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
         </>
       )}
     </>

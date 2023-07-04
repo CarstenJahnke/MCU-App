@@ -65,7 +65,7 @@ export const initialQuestions = [
   {
     question: "Wie heißt Scott Langs Tochter in Ant-Man?",
     answers: ["Barbara", "Cassie", "Morgan", "Mary-Jane"],
-    correctAnswerIndex: 1,
+    correctAnswerIndex: 2,
   },
 
   {
@@ -201,8 +201,187 @@ export const initialQuestions = [
   },
 
   {
-    question: "Frage 2",
-    answers: ["Antwort 1", "Antwort 2", "Antwort 3", "Antwort 4"],
+    question: "Wer ist der erste Avenger im Filmuniversum?",
+    answers: ["Nick Fury", "Hulk", "Captain America", "Iron Man"],
     correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Was hält Tony Stark am Leben?",
+    answers: ["Ein Dieselmotor", "Donuts", "Arc Reaktor", "Aspirin"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "In welchem Film hatte Hawkeye seinen ersten Auftritt?",
+    answers: ["Der unglaubliche Hulk", "Iron Man", "Thor", "Captain America"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Wer schwingt den Hammer?",
+    answers: ["Thor", "Loki", "Groot", "Doctor Strange"],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question:
+      "Black Widow gab es schon vor The Avengers, wo tauchte sie zuerst auf?",
+    answers: ["Der unglaubliche Hulk", "Thor", "Captain America", "Iron Man 2"],
+    correctAnswerIndex: 3,
+  },
+
+  {
+    question: "Wie ist der richtige Name von Hawkeye?",
+    answers: ["Steve Rogers", "Clint Barton", "Bruce Banner", "Nick Fury"],
+    correctAnswerIndex: 1,
+  },
+
+  {
+    question: "Wer gehört nicht zu den Avengers?",
+    answers: ["Thor", "Hawkeye", "Hulk", "Superman"],
+    correctAnswerIndex: 3,
+  },
+
+  {
+    question: "Von wem wurde die Comicvorlage geschaffen?",
+    answers: [
+      "Stan Lee & Jack Kirby",
+      "Frank Miller",
+      "Bob Kane",
+      "Jerry Siegel & Joe Shuster",
+    ],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question: "Wie heißt Lokis Vater?",
+    answers: ["Moki", "Laufey", "Odin", "Bor"],
+    correctAnswerIndex: 1,
+  },
+
+  {
+    question: "Wie lange saß Ant-Man Scott Lang im Gefängnis?",
+    answers: ["3 Jahre", "10 Monate", "5 Jahre", "2 Jahre"],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question: "Wie heißt Peter Quills erstes Raumschiff?",
+    answers: ["Milano", "Turino", "Neapolino", "Südtirolo"],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question:
+      "Wo wird Hulk gefunden, nachdem er am Ende von Age of Ultron verschwunden ist?",
+    answers: ["Asgaard", "Sakaar", "Mittelerde", "Vanir"],
+    correctAnswerIndex: 1,
+  },
+
+  {
+    question: "Wer hat Tony Starks Eltern getötet?",
+    answers: ["Obadiah Stane", "Loki", "The Winter Soldier", "Thanos"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Was ist Doctor Stranges Spezialgebiet im medizinischen Bereich?",
+    answers: [
+      "Orthopädische Chirurgie",
+      "Herz- und Gefäßchirurgie",
+      "Neurologische Chirurgie",
+      "Allgemeine Chirurgie",
+    ],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Wer spielt Thor?",
+    answers: [
+      "Chris Hemsworth",
+      "Liam Hemsworth",
+      "Chris Pratt",
+      "Luke Hemsworth",
+    ],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question: "Wie lange war Scott Lang im Quantenreich gefangen?",
+    answers: ["35 Jahre", "15 Minuten", "5 Jahre", "2 Jahre"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Welcher Spezies gehört Loki an?",
+    answers: ["Leviathane", "Vrellnexianer", "Frostriesen", "Feuerbestien"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Wie lautet der Name des Universums, in das Ant-Man reist?",
+    answers: ["Quantenreich", "Quantenzone", "Mikroversum", "Universum 313"],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question: "Wie lautet der Name von Wandas Zwillingsbruder?",
+    answers: ["Peter", "Wladimir", "Demitri", "Pietro"],
+    correctAnswerIndex: 3,
+  },
+
+  {
+    question: "Was befindet sich im Inneren des Tesserakts?",
+    answers: ["Raumstein", "Zeitstein", "Seelenstein", "Gedankenstein"],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question: "Woher stammen Captain Marvels Kräfte?",
+    answers: [
+      "Tesserakt",
+      "Von der Geburt",
+      "Ein wissenschaftliches Experiment",
+      "Eine Explosion",
+    ],
+    correctAnswerIndex: 0,
+  },
+
+  {
+    question: "Wie lautet der Name von Peter Parkers bestem Freund im MCU?",
+    answers: ["Harry Osborne", "Mary Jane Wattson", "Ned Leeds", "Tony Stark"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question:
+      "Wer musste sterben, damit Thanos den Seelenstein bekommen konnte?",
+    answers: ["Black Widow", "Quicksilver", "Gamora", "Nebula"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Welchen Infinity Stein hat Vision?",
+    answers: ["Realitätsstein", "Seelenstein", "Gedankenstein", "Raumstein"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Wer ist der stärkste Avenger?",
+    answers: ["Thor", "Spider-Man", "Hulk", "Scarlet Witch"],
+    correctAnswerIndex: 3,
+  },
+
+  {
+    question: "Welche Farbe haben Wandas Kräfte?",
+    answers: ["Lila", "Pink", "Rot", "Orange"],
+    correctAnswerIndex: 2,
+  },
+
+  {
+    question: "Wie heißt Wanda mit Nachnamen?",
+    answers: ["Maximus", "Vision", "Rohmannhoff", "Maximoff"],
+    correctAnswerIndex: 3,
   },
 ];

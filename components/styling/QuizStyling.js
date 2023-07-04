@@ -161,13 +161,8 @@ export const QuizResult = styled.div`
   border-style: outset;
   color: #ffb833;
   font-size: 20px;
-  margin-top: 20px;
+  margin-top: 10%;
   padding: 20px;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
 `;
