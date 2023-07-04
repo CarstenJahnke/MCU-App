@@ -62,12 +62,14 @@ export const QuizHeadline = styled.div`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 export const QuizButtonContainer = styled.div`
-  display: grid;
-  justify-content: center;
   margin-top: 20px;
   margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
 `;
+
 export const QuizButton = styled.button`
   ${ButtonStyle}
   background-image: linear-gradient(
@@ -82,5 +84,5 @@ export const QuizButton = styled.button`
   font-size: 20px;
   height: 100px;
   margin: 10px;
-  width: 200px;
+  width: 44%;
 `;

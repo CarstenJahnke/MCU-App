@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { initialQuestions } from "./Questions";
 import { motion } from "framer-motion";
 import {
   QuizButton,
   QuizButtonContainer,
-  QuizCard,
   QuizHeadline,
   QuizTimer,
   QuizTitle,
 } from "../styling/QuizStyling";
+import { initialQuestions } from "./Questions";
+import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
+import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
 
 const Timer = ({ startTime }) => {
   const [currentTime, setCurrentTime] = useState(Date.now());
@@ -45,21 +46,32 @@ const QuizComponent = () => {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [showTimer, setShowTimer] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false); // Neue Variable für die Anzeige der Fragen
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [countdown, setCountdown] = useState(4); // Countdown von 4 Sekunden
 
   useEffect(() => {
     if (quizStarted) {
       const shuffledQuestions = shuffleArray(initialQuestions);
-      setQuestions(shuffledQuestions);
+      const selectedQuestions = shuffledQuestions.slice(0, 10); // Begrenze auf maximal 10 Fragen
+      setQuestions(selectedQuestions);
 
-      // Starte den Timer nach 3 Sekunden
       setTimeout(() => {
         setStartTime(Date.now());
         setShowTimer(true);
-        setShowQuiz(true); // Zeige die Fragen nach Ablauf der 3 Sekunden an
+        setShowQuiz(true);
       }, 3000);
     }
   }, [quizStarted]);
+
+  useEffect(() => {
+    if (countdown > 0 && showQuiz === false) {
+      const countdownTimer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+
+      return () => clearTimeout(countdownTimer);
+    }
+  }, [countdown, showQuiz]);
 
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
@@ -86,12 +98,12 @@ const QuizComponent = () => {
     setCorrectAnswers(0);
     setSelectedAnswerIndex(null);
     setShowTimer(false);
-    setShowQuiz(false); // Setze die Variable zurück, um die Fragen beim Neustart auszublenden
+    setShowQuiz(false);
   };
 
   const handleAnswerClick = (answerIndex) => {
     if (selectedAnswerIndex !== null) {
-      return; // Antwort-Buttons sind gesperrt, wenn bereits eine Antwort ausgewählt wurde
+      return;
     }
 
     setSelectedAnswerIndex(answerIndex);
@@ -114,22 +126,23 @@ const QuizComponent = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
 
+  const goBack = () => {
+    window.location.reload();
+  };
+
   return (
     <>
       {/* Zurück-Button zur Startseite */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -50 }}
-      >
-        {/* <Link href={`../..`}>
-          <ButtonGeneralContainer>
-            <ButtonGeneralStyle>
-              BUTTON FIXEN --- Zurück zur Übersicht
-            </ButtonGeneralStyle>
-          </ButtonGeneralContainer>
-        </Link> */}
-      </motion.div>
+      <ButtonGeneralContainer>
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+        >
+          <ButtonGeneralStyle onClick={goBack}>Zurück</ButtonGeneralStyle>
+          {/* Button, um zur vorherigen Seite zurückzugehen */}
+        </motion.div>
+      </ButtonGeneralContainer>
       {!quizStarted ? (
         <>
           <motion.div
@@ -155,7 +168,13 @@ const QuizComponent = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
                 >
-                  <QuizTitle>Das Quiz beginnt in 3 Sekunden...</QuizTitle>
+                  {countdown > 0 ? (
+                    <QuizTitle>
+                      Das Quiz beginnt in {countdown} Sekunden...
+                    </QuizTitle>
+                  ) : (
+                    <QuizTitle>Das Quiz beginnt jetzt!</QuizTitle>
+                  )}
                 </motion.div>
               )}
 
