@@ -5,15 +5,15 @@ import {
   QuizButton,
   QuizButtonBack,
   QuizButtonContainer,
-  QuizButtonRight,
   QuizButtonStart,
-  QuizButtonWrong,
   QuizCountdownStart,
   QuizHeadline,
-  QuizHeadlineEnd,
   QuizNumber,
   QuizResult,
-  QuizText,
+  QuizResultCorrect,
+  QuizResultHeadline,
+  QuizResultHighscore,
+  QuizResultTime,
   QuizTimeAndNumber,
   QuizTimer,
   QuizTitle,
@@ -35,6 +35,12 @@ const QuizComponent = () => {
   const [showQuiz, setShowQuiz] = useState(false); // Gibt an, ob das Quiz angezeigt werden soll
   const [countdown, setCountdown] = useState(4); // Countdown von 4 Sekunden
   const [showAnswerOptions, setShowAnswerOptions] = useState(false); // Gibt an, ob die Antwortoptionen angezeigt werden sollen
+  const [highscore, setHighscore] = useState(null); // Gibt den Highscore ins LocalStorage
+  const defaultValue = 0; // Standardwert für den Highscore
+
+  const storedHighscore = localStorage.getItem("highscore");
+
+  console.log("Highscore " + storedHighscore);
 
   // Komponente für den Timer
   const Timer = ({ startTime }) => {
@@ -109,6 +115,14 @@ const QuizComponent = () => {
     return shuffledArray;
   };
 
+  // Highscore aus LocalStorage empfangen
+  useEffect(() => {
+    const storedHighscore = localStorage.getItem("highscore");
+    if (storedHighscore) {
+      setHighscore(storedHighscore);
+    }
+  }, []);
+
   // Funktion zum Starten des Quiz
   const handleStartQuiz = () => {
     setQuizStarted(true); // Quiz wird gestartet
@@ -126,6 +140,18 @@ const QuizComponent = () => {
     setSelectedAnswerIndex(null);
     setShowTimer(false);
     setShowQuiz(false);
+  };
+
+  const handleQuizFinish = () => {
+    const currentTime = new Date().getTime();
+    setEndTime(currentTime);
+
+    if (startTime) {
+      const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+      // Speichere die Highscore-Zeit im LocalStorage
+      localStorage.setItem("highscore", elapsedTime);
+      setHighscore(elapsedTime);
+    }
   };
 
   // Funktion zum Klicken auf eine Antwortoption
@@ -257,13 +283,20 @@ const QuizComponent = () => {
             </>
           ) : (
             <QuizResult>
-              <QuizTitle>Quiz beendet</QuizTitle>
-              <QuizText>Ergebnis: {correctAnswers} von 10 ✅</QuizText>
+              <QuizResultHeadline>Quiz beendet</QuizResultHeadline>
+              <QuizResultCorrect>
+                Ergebnis: {correctAnswers} von 10 ✅
+              </QuizResultCorrect>
               {endTime && startTime && (
-                <p>
+                <QuizResultTime>
                   Deine Zeit: {Math.floor((endTime - startTime) / 1000)}{" "}
                   Sekunden.
-                </p>
+                </QuizResultTime>
+              )}
+              {highscore !== null && (
+                <QuizResultHighscore>
+                  Highscore: {highscore} Sekunden
+                </QuizResultHighscore>
               )}
               <QuizButtonStart onClick={handleRestartQuiz}>
                 Neuer Versuch

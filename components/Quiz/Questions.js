@@ -65,7 +65,7 @@ export const initialQuestions = [
   {
     question: "Wie heißt Scott Langs Tochter in Ant-Man?",
     answers: ["Barbara", "Cassie", "Morgan", "Mary-Jane"],
-    correctAnswerIndex: 2,
+    correctAnswerIndex: 1,
   },
 
   {

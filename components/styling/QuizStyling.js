@@ -148,6 +148,7 @@ export const QuizButton = styled.button`
 `;
 
 export const QuizResult = styled.div`
+  align-items: center;
   background-image: linear-gradient(
     to bottom,
     #5a0000,
@@ -160,9 +161,45 @@ export const QuizResult = styled.div`
   border-radius: 20px;
   border-style: outset;
   color: #ffb833;
+  display: flex;
+  flex-direction: column;
   font-size: 20px;
+  justify-content: center;
   margin-top: 10%;
   padding: 20px;
   text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const QuizResultHeadline = styled.div`
+  color: #ffb833;
+  font-size: 25px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const QuizResultCorrect = styled.text`
+  color: #ffb833;
+  font-size: 17px;
+  margin-bottom: 10px;
+  text-align: left;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const QuizResultTime = styled.text`
+  color: #ffb833;
+  font-size: 17px;
+  margin-bottom: 10px;
+  text-align: left;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const QuizResultHighscore = styled.text`
+  color: #ffb833;
+  font-size: 17px;
+  margin-bottom: 10px;
+  text-align: left;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
