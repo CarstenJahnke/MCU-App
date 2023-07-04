@@ -28,16 +28,39 @@ export const QuizText = styled.text`
 export const QuizTimer = styled.text`
   color: #ffb833;
   font-size: 17px;
-  margin-bottom: 10px;
+  margin-right: 4px;
   text-align: left;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const QuizNumber = styled.text`
+  color: #ffb833;
+  font-size: 17px;
+  margin-left: 4px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+`;
+
+export const QuizTimeAndNumber = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+`;
+
+export const QuizCountdownStart = styled.div`
+  color: #ffb833;
+  font-size: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
 
 export const QuizTitle = styled.div`
   color: #ffb833;
-  font-size: 30px;
-  margin-top: 40px;
-  margin-bottom: 30px;
+  font-size: 25px;
+  margin-top: 30px;
+  margin-bottom: 10px;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
@@ -57,17 +80,54 @@ export const QuizHeadline = styled.div`
   color: #ffb833;
   font-size: 20px;
   padding: 20px;
-  margin-bottom: 40px;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
+
 export const QuizButtonContainer = styled.div`
-  margin-top: 20px;
-  margin-bottom: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+`;
+
+export const QuizButtonStart = styled.button`
+  ${ButtonStyle}
+  background-image: linear-gradient(
+    to bottom,
+    #5a0000,
+    #6b0804,
+    #7d1405,
+    #8f1f04,
+    #a02b00
+  );
+  color: #ffb833;
+  font-size: 16px;
+  height: 50px;
+  margin: 10px;
+  width: 50%;
+`;
+
+export const QuizButtonBack = styled.button`
+  ${ButtonStyle}
+  background-image: linear-gradient(
+    to bottom,
+    #5a0000,
+    #6b0804,
+    #7d1405,
+    #8f1f04,
+    #a02b00
+  );
+  color: #ffb833;
+  font-size: 16px;
+  height: 50px;
+  margin: 10px;
+  width: 50%;
+
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 export const QuizButton = styled.button`
@@ -81,8 +141,33 @@ export const QuizButton = styled.button`
     #a02b00
   );
   color: #ffb833;
-  font-size: 20px;
+  font-size: 16px;
   height: 100px;
   margin: 10px;
   width: 44%;
+`;
+
+export const QuizResult = styled.div`
+  background-image: linear-gradient(
+    to bottom,
+    #5a0000,
+    #6b0804,
+    #7d1405,
+    #8f1f04,
+    #a02b00
+  );
+  border: #ffb833;
+  border-radius: 20px;
+  border-style: outset;
+  color: #ffb833;
+  font-size: 20px;
+  margin-top: 20px;
+  padding: 20px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
 `;

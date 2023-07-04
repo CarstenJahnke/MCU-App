@@ -1,78 +1,101 @@
-import React, { useState, useEffect } from "react";
+import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
+import { initialQuestions } from "./Questions";
 import { motion } from "framer-motion";
 import {
   QuizButton,
+  QuizButtonBack,
   QuizButtonContainer,
+  QuizButtonRight,
+  QuizButtonStart,
+  QuizButtonWrong,
+  QuizCountdownStart,
   QuizHeadline,
+  QuizHeadlineEnd,
+  QuizNumber,
+  QuizResult,
+  QuizTimeAndNumber,
   QuizTimer,
   QuizTitle,
 } from "../styling/QuizStyling";
-import { initialQuestions } from "./Questions";
-import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
-import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
-
-const Timer = ({ startTime }) => {
-  const [currentTime, setCurrentTime] = useState(Date.now());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(Date.now());
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
-  const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-  const minutes = Math.floor(elapsedTime / 60);
-  const seconds = elapsedTime % 60;
-
-  return (
-    <QuizTimer>
-      Zeit: {minutes < 10 ? "0" + minutes : minutes}:
-      {seconds < 10 ? "0" + seconds : seconds}
-    </QuizTimer>
-  );
-};
+import { toast, ToastContainer } from "react-toastify";
+import React, { useState, useEffect } from "react";
 
 const QuizComponent = () => {
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
-  const [quizStarted, setQuizStarted] = useState(false);
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
-  const [showTimer, setShowTimer] = useState(false);
-  const [showQuiz, setShowQuiz] = useState(false);
+  // State-Variablen für den Quiz-Zustand und die Fragen
+  const [questions, setQuestions] = useState([]); // Array der Fragen
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // Index der aktuellen Frage
+  const [correctAnswers, setCorrectAnswers] = useState(0); // Anzahl der richtigen Antworten
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null); // Index der ausgewählten Antwort
+  const [quizStarted, setQuizStarted] = useState(false); // Gibt an, ob das Quiz gestartet wurde
+  const [quizCompleted, setQuizCompleted] = useState(false); // Gibt an, ob das Quiz abgeschlossen wurde
+  const [startTime, setStartTime] = useState(null); // Startzeit des Quiz
+  const [endTime, setEndTime] = useState(null); // Endzeit des Quiz
+  const [showTimer, setShowTimer] = useState(false); // Gibt an, ob der Timer angezeigt werden soll
+  const [showQuiz, setShowQuiz] = useState(false); // Gibt an, ob das Quiz angezeigt werden soll
   const [countdown, setCountdown] = useState(4); // Countdown von 4 Sekunden
+  const [showAnswerOptions, setShowAnswerOptions] = useState(false); // Gibt an, ob die Antwortoptionen angezeigt werden sollen
+
+  // Komponente für den Timer
+  const Timer = ({ startTime }) => {
+    const [currentTime, setCurrentTime] = useState(Date.now());
+
+    useEffect(() => {
+      // Aktualisiert die aktuelle Zeit alle 1 Sekunde
+      const timer = setInterval(() => {
+        setCurrentTime(Date.now());
+      }, 1000);
+
+      // Wird aufgerufen, wenn die Komponente unmontiert wird
+      return () => {
+        clearInterval(timer); // Stoppt den Timer
+      };
+    }, []);
+
+    // Berechnung der vergangenen Zeit seit dem Quizstart
+    const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+    const minutes = Math.floor(elapsedTime / 60);
+    const seconds = elapsedTime % 60;
+
+    // Anzeige des Timers und der aktuellen Frage
+    return (
+      <QuizTimeAndNumber>
+        <QuizTimer>
+          ⏰ {minutes < 10 ? "0" + minutes : minutes}:
+          {seconds < 10 ? "0" + seconds : seconds}
+        </QuizTimer>
+        <QuizNumber> 🚀 {currentQuestionIndex + 1}/10</QuizNumber>
+      </QuizTimeAndNumber>
+    );
+  };
 
   useEffect(() => {
+    // Wird aufgerufen, wenn das Quiz gestartet wird
     if (quizStarted) {
-      const shuffledQuestions = shuffleArray(initialQuestions);
-      const selectedQuestions = shuffledQuestions.slice(0, 10); // Begrenze auf maximal 10 Fragen
-      setQuestions(selectedQuestions);
+      const shuffledQuestions = shuffleArray(initialQuestions); // Mischen der Fragen
+      const selectedQuestions = shuffledQuestions.slice(0, 10); // Auswahl der ersten 10 Fragen
+      setQuestions(selectedQuestions); // Setzen der ausgewählten Fragen
 
       setTimeout(() => {
-        setStartTime(Date.now());
-        setShowTimer(true);
-        setShowQuiz(true);
+        setStartTime(Date.now()); // Startzeit des Quiz setzen
+        setShowTimer(true); // Timer anzeigen
+        setShowQuiz(true); // Quiz anzeigen
+        setShowAnswerOptions(true); // Antwortoptionen anzeigen
       }, 3000);
     }
   }, [quizStarted]);
 
   useEffect(() => {
+    // Wird aufgerufen, wenn der Countdown abläuft und das Quiz noch nicht gestartet wurde
     if (countdown > 0 && showQuiz === false) {
       const countdownTimer = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
 
-      return () => clearTimeout(countdownTimer);
+      return () => clearTimeout(countdownTimer); // Stoppt den Countdown-Timer
     }
   }, [countdown, showQuiz]);
 
+  // Funktion zum Mischen eines Arrays
   const shuffleArray = (array) => {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -85,11 +108,14 @@ const QuizComponent = () => {
     return shuffledArray;
   };
 
+  // Funktion zum Starten des Quiz
   const handleStartQuiz = () => {
-    setQuizStarted(true);
+    setQuizStarted(true); // Quiz wird gestartet
   };
 
+  // Funktion zum Neustart des Quiz
   const handleRestartQuiz = () => {
+    // Setzen aller State-Variablen auf den Anfangszustand
     setQuizStarted(false);
     setQuizCompleted(false);
     setStartTime(null);
@@ -101,48 +127,48 @@ const QuizComponent = () => {
     setShowQuiz(false);
   };
 
+  // Funktion zum Klicken auf eine Antwortoption
   const handleAnswerClick = (answerIndex) => {
-    if (selectedAnswerIndex !== null) {
-      return;
-    }
+    // Wenn bereits eine Antwort ausgewählt wurde, wird nichts ausgeführt
+    if (selectedAnswerIndex === null) {
+      setSelectedAnswerIndex(answerIndex); // Setzen der ausgewählten Antwort
 
-    setSelectedAnswerIndex(answerIndex);
-
-    const currentQuestion = questions[currentQuestionIndex];
-    if (answerIndex === currentQuestion.correctAnswerIndex) {
-      setCorrectAnswers(correctAnswers + 1);
-    }
-
-    setTimeout(() => {
-      setSelectedAnswerIndex(null);
-      if (currentQuestionIndex + 1 < questions.length) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      const currentQuestion = questions[currentQuestionIndex];
+      if (answerIndex === currentQuestion.correctAnswerIndex) {
+        // Wenn die ausgewählte Antwort korrekt ist
+        setCorrectAnswers(correctAnswers + 1); // Inkrementiere die Anzahl der richtigen Antworten
+        toast.success("Richtige Antwort! 🚀", { autoClose: 2000 }); // Zeige Erfolgsmeldung
       } else {
-        setEndTime(Date.now());
-        setQuizCompleted(true);
+        toast.error(
+          `Falsch! Richtige wäre gewesen: "${
+            currentQuestion.answers[currentQuestion.correctAnswerIndex]
+          }" 👍`,
+          { autoClose: 2000 }
+        ); // Zeige Fehlermeldung mit der richtigen Antwort
       }
-    }, 1500);
+
+      setTimeout(() => {
+        setSelectedAnswerIndex(null); // Setze die ausgewählte Antwort zurück
+        if (currentQuestionIndex + 1 < questions.length) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1); // Gehe zur nächsten Frage
+        } else {
+          setEndTime(Date.now()); // Setze die Endzeit des Quiz
+          setQuizCompleted(true); // Markiere das Quiz als abgeschlossen
+        }
+      }, 3000);
+    }
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = questions[currentQuestionIndex]; // Aktuelle Frage
 
+  // Funktion zum Zurückkehren zur vorherigen Seite
   const goBack = () => {
     window.location.reload();
   };
 
   return (
     <>
-      {/* Zurück-Button zur Startseite */}
-      <ButtonGeneralContainer>
-        <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -50 }}
-        >
-          <ButtonGeneralStyle onClick={goBack}>Zurück</ButtonGeneralStyle>
-          {/* Button, um zur vorherigen Seite zurückzugehen */}
-        </motion.div>
-      </ButtonGeneralContainer>
+      <ToastContainer position="top-right" />
       {!quizStarted ? (
         <>
           <motion.div
@@ -152,8 +178,16 @@ const QuizComponent = () => {
           >
             <QuizTitle>MCU Quiz</QuizTitle>
             <QuizButtonContainer>
-              <QuizButton onClick={handleStartQuiz}>Start</QuizButton>
+              <QuizButtonStart onClick={handleStartQuiz}>Start</QuizButtonStart>
+              <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
             </QuizButtonContainer>
+            <ButtonGeneralContainer>
+              <motion.div
+                initial={{ opacity: 0, y: -50 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -50 }}
+              ></motion.div>
+            </ButtonGeneralContainer>
           </motion.div>
         </>
       ) : (
@@ -169,23 +203,20 @@ const QuizComponent = () => {
                   exit={{ opacity: 0, scale: 0.5 }}
                 >
                   {countdown > 0 ? (
-                    <QuizTitle>
+                    <QuizCountdownStart>
                       Das Quiz beginnt in {countdown} Sekunden...
-                    </QuizTitle>
+                    </QuizCountdownStart>
                   ) : (
-                    <QuizTitle>Das Quiz beginnt jetzt!</QuizTitle>
+                    <QuizTitle>Los gehts!</QuizTitle>
                   )}
                 </motion.div>
               )}
-
               {showQuiz && currentQuestion && (
-                <>
-                  <QuizTitle>Frage {currentQuestionIndex + 1}</QuizTitle>
-                  <QuizHeadline>{currentQuestion.question}</QuizHeadline>
-                </>
+                <QuizHeadline>{currentQuestion.question}</QuizHeadline>
               )}
               <QuizButtonContainer>
-                {showQuiz &&
+                {showAnswerOptions &&
+                  showQuiz &&
                   currentQuestion &&
                   currentQuestion.answers
                     .map((answer, index) => ({ answer, index }))
@@ -195,55 +226,50 @@ const QuizComponent = () => {
                         key={index}
                         onClick={() => handleAnswerClick(index)}
                         style={{
-                          backgroundColor:
-                            selectedAnswerIndex !== null &&
-                            index === currentQuestion.correctAnswerIndex
-                              ? "green"
-                              : selectedAnswerIndex !== null &&
-                                index !== currentQuestion.correctAnswerIndex
-                              ? "red"
-                              : "",
+                          ...(selectedAnswerIndex !== null &&
+                          index === currentQuestion.correctAnswerIndex
+                            ? { borderColor: "green", borderSize: "10px" } // Use the correct answer style object here
+                            : selectedAnswerIndex !== null &&
+                              index !== currentQuestion.correctAnswerIndex
+                            ? { borderColor: "red", borderSize: "10px" } // Use the wrong answer style object here
+                            : {}),
                         }}
                         disabled={selectedAnswerIndex !== null}
                       >
-                        {answer}
+                        <motion.div
+                          initial={{ opacity: 0, y: -50 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -50 }}
+                        >
+                          {answer}
+                        </motion.div>
                       </QuizButton>
                     ))}
+                <motion.div
+                  initial={{ opacity: 0, y: -50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -50 }}
+                >
+                  <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
+                </motion.div>
               </QuizButtonContainer>
-              {selectedAnswerIndex !== null && (
-                <>
-                  {showQuiz &&
-                    currentQuestion &&
-                    (selectedAnswerIndex ===
-                    currentQuestion.correctAnswerIndex ? (
-                      <p>Richtig!</p>
-                    ) : (
-                      <p>
-                        Falsch! Richtige Antwort:{" "}
-                        {
-                          currentQuestion.answers[
-                            currentQuestion.correctAnswerIndex
-                          ]
-                        }
-                      </p>
-                    ))}
-                </>
-              )}
             </>
           ) : (
-            <div>
-              <h2>Quiz beendet</h2>
+            <QuizResult>
+              <QuizTitle>Quiz beendet</QuizTitle>
               <p>Korrekte Antworten: {correctAnswers}</p>
               {endTime && startTime && (
                 <p>Zeit: {Math.floor((endTime - startTime) / 1000)} Sekunden</p>
               )}
-              <button onClick={handleRestartQuiz}>Neustart</button>
-            </div>
+              <QuizButtonBack onClick={handleRestartQuiz}>
+                Neustart
+              </QuizButtonBack>
+              <QuizButtonStart onClick={goBack}>Zurück</QuizButtonStart>
+            </QuizResult>
           )}
         </>
       )}
     </>
   );
 };
-
 export default QuizComponent;
