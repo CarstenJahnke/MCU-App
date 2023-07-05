@@ -4,16 +4,20 @@ import { motion } from "framer-motion";
 import {
   QuizButton,
   QuizButtonBack,
+  QuizButtonBackContainer,
   QuizButtonContainer,
   QuizButtonStart,
   QuizCountdownStart,
   QuizHeadline,
+  QuizLogo,
   QuizNumber,
   QuizResult,
   QuizResultCorrect,
   QuizResultHeadline,
   QuizResultHighscore,
   QuizResultTime,
+  QuizStartText,
+  QuizText,
   QuizTimeAndNumber,
   QuizTimer,
   QuizTitle,
@@ -36,9 +40,21 @@ const QuizComponent = () => {
   const [countdown, setCountdown] = useState(4); // Countdown von 4 Sekunden
   const [showAnswerOptions, setShowAnswerOptions] = useState(false); // Gibt an, ob die Antwortoptionen angezeigt werden sollen
   const [highscore, setHighscore] = useState(null); // Gibt den Highscore ins LocalStorage
-  const defaultValue = 0; // Standardwert für den Highscore
 
   const storedHighscore = localStorage.getItem("highscore");
+
+  // Funktion zum Speichern der Quizzeit im LocalStorage
+  const saveQuizTimeToLocalStorage = (quizTime) => {
+    localStorage.setItem("highscore", quizTime);
+  };
+
+  const loadHighscoreFromLocalStorage = () => {
+    const storedHighscore = localStorage.getItem("highscore");
+    if (storedHighscore) {
+      return storedHighscore;
+    }
+    return null;
+  };
 
   console.log("Highscore " + storedHighscore);
 
@@ -79,7 +95,7 @@ const QuizComponent = () => {
     // Wird aufgerufen, wenn das Quiz gestartet wird
     if (quizStarted) {
       const shuffledQuestions = shuffleArray(initialQuestions); // Mischen der Fragen
-      const selectedQuestions = shuffledQuestions.slice(0, 10); // Auswahl der ersten 10 Fragen
+      const selectedQuestions = shuffledQuestions.slice(0, 1); // Auswahl der ersten 10 Fragen
       setQuestions(selectedQuestions); // Setzen der ausgewählten Fragen
 
       setTimeout(() => {
@@ -115,9 +131,9 @@ const QuizComponent = () => {
     return shuffledArray;
   };
 
-  // Highscore aus LocalStorage empfangen
+  // Highscore aus dem LocalStorage laden
   useEffect(() => {
-    const storedHighscore = localStorage.getItem("highscore");
+    const storedHighscore = loadHighscoreFromLocalStorage();
     if (storedHighscore) {
       setHighscore(storedHighscore);
     }
@@ -142,14 +158,14 @@ const QuizComponent = () => {
     setShowQuiz(false);
   };
 
+  // Funktion zum Beenden des Quiz
   const handleQuizFinish = () => {
     const currentTime = new Date().getTime();
     setEndTime(currentTime);
 
     if (startTime) {
       const elapsedTime = Math.floor((currentTime - startTime) / 1000);
-      // Speichere die Highscore-Zeit im LocalStorage
-      localStorage.setItem("highscore", elapsedTime);
+      saveQuizTimeToLocalStorage(elapsedTime); // Speichere die Highscore-Zeit im LocalStorage
       setHighscore(elapsedTime);
     }
   };
@@ -195,6 +211,13 @@ const QuizComponent = () => {
 
   return (
     <>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.5 }}
+      >
+        <QuizLogo>Quiz</QuizLogo>
+      </motion.div>
       <ToastContainer position="top-right" />
       {!quizStarted ? (
         <>
@@ -204,17 +227,15 @@ const QuizComponent = () => {
             exit={{ opacity: 0, scale: 0.5 }}
           >
             <QuizTitle>MCU Quiz</QuizTitle>
+            <QuizStartText>
+              Test jetzt dein Wissen in dem Marvelous Cinematic Unisearch Quiz
+            </QuizStartText>
             <QuizButtonContainer>
               <QuizButtonStart onClick={handleStartQuiz}>Start</QuizButtonStart>
-              <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
             </QuizButtonContainer>
-            <ButtonGeneralContainer>
-              <motion.div
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -50 }}
-              ></motion.div>
-            </ButtonGeneralContainer>
+            <QuizButtonBackContainer>
+              <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
+            </QuizButtonBackContainer>
           </motion.div>
         </>
       ) : (
@@ -272,13 +293,6 @@ const QuizComponent = () => {
                         </motion.div>
                       </QuizButton>
                     ))}
-                <motion.div
-                  initial={{ opacity: 0, y: -50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -50 }}
-                >
-                  <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
-                </motion.div>
               </QuizButtonContainer>
             </>
           ) : (
@@ -303,7 +317,9 @@ const QuizComponent = () => {
               </QuizButtonStart>
             </QuizResult>
           )}
-          <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
+          <QuizButtonBackContainer>
+            <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
+          </QuizButtonBackContainer>
         </>
       )}
     </>
