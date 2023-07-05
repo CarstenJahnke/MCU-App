@@ -97,7 +97,7 @@ const QuizComponent = () => {
     // Wird aufgerufen, wenn das Quiz gestartet wird
     if (quizStarted) {
       const shuffledQuestions = shuffleArray(initialQuestions); // Mischen der Fragen
-      const selectedQuestions = shuffledQuestions.slice(0, 1); // Auswahl der ersten 10 Fragen
+      const selectedQuestions = shuffledQuestions.slice(0, 10); // Auswahl der ersten 10 Fragen
       setQuestions(selectedQuestions); // Setzen der ausgewählten Fragen
 
       setTimeout(() => {
