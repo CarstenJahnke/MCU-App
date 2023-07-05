@@ -1,4 +1,3 @@
-import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
 import { initialQuestions } from "./Questions";
 import { motion } from "framer-motion";
 import {
@@ -17,13 +16,14 @@ import {
   QuizResultHighscore,
   QuizResultTime,
   QuizStartText,
-  QuizText,
   QuizTimeAndNumber,
   QuizTimer,
   QuizTitle,
 } from "../styling/QuizStyling";
 import { toast, ToastContainer } from "react-toastify";
 import React, { useState, useEffect } from "react";
+import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
+import Phases from "../Cards";
 
 const QuizComponent = () => {
   // State-Variablen für den Quiz-Zustand und die Fragen
@@ -157,6 +157,14 @@ const QuizComponent = () => {
     setShowTimer(false);
     setShowQuiz(false);
   };
+  const [showPhases, setShowPhases] = useState(false);
+  // Funktion zum Umschalten des Quiz anzeigen
+  const handlePhasesButtonClick = () => {
+    setShowPhases(true);
+  };
+  if (showPhases) {
+    return <Phases />;
+  }
 
   // Funktion zum Beenden des Quiz
   const handleQuizFinish = () => {
@@ -204,13 +212,11 @@ const QuizComponent = () => {
 
   const currentQuestion = questions[currentQuestionIndex]; // Aktuelle Frage
 
-  // Funktion zum Zurückkehren zur vorherigen Seite
-  const goBack = () => {
-    window.location.reload();
-  };
-
   return (
     <>
+      <ButtonGeneralStyle onClick={handlePhasesButtonClick}>
+        Zurück zur Seite
+      </ButtonGeneralStyle>
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -234,7 +240,9 @@ const QuizComponent = () => {
               <QuizButtonStart onClick={handleStartQuiz}>Start</QuizButtonStart>
             </QuizButtonContainer>
             <QuizButtonBackContainer>
-              <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
+              <QuizButtonBack onClick={handlePhasesButtonClick}>
+                Zurück
+              </QuizButtonBack>
             </QuizButtonBackContainer>
           </motion.div>
         </>
@@ -318,7 +326,9 @@ const QuizComponent = () => {
             </QuizResult>
           )}
           <QuizButtonBackContainer>
-            <QuizButtonBack onClick={goBack}>Zurück</QuizButtonBack>
+            <QuizButtonBack onClick={handlePhasesButtonClick}>
+              Zurück
+            </QuizButtonBack>
           </QuizButtonBackContainer>
         </>
       )}

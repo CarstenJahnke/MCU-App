@@ -43,8 +43,9 @@ const MovieCards = () => {
   // Zustandsvariablen
   const [sortOption, setSortOption] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [showFavorites, setShowFavorites] = useState(false); // Zustand zur Speicherung des Favoritenanzeigen-Status
+  const [showFavorites, setShowFavorites] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
+  const [favoriteMovies, setFavoriteMovies] = useState([]); // Zustand für favorisierte Filme
 
   // Effekt-Hook zum Setzen des Ladezustands
   useEffect(() => {
@@ -124,6 +125,32 @@ const MovieCards = () => {
     setShowQuiz(true);
   };
 
+  // Funktion zum Hinzufügen/Entfernen von Favoriten
+  const toggleFavoriteMovie = (movieId) => {
+    const favorites = localStorage.getItem("favorites")
+      ? JSON.parse(localStorage.getItem("favorites"))
+      : [];
+
+    if (favorites.includes(movieId)) {
+      const updatedFavorites = favorites.filter((id) => id !== movieId);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      setFavoriteMovies((prevFavorites) =>
+        prevFavorites.filter((movie) => movie.id !== movieId)
+      ); // Entferne den Film aus der favorisierten Filme-Liste
+    } else {
+      const updatedFavorites = [...favorites, movieId];
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      const movie = sortedMovies.find((movie) => movie.id === movieId);
+      setFavoriteMovies((prevFavorites) => [...prevFavorites, movie]); // Füge den Film zur favorisierten Filme-Liste hinzu
+    }
+
+    const updatedFavorites = localStorage.getItem("favorites")
+      ? JSON.parse(localStorage.getItem("favorites"))
+      : [];
+
+    setShowFavorites(updatedFavorites.length > 0);
+  };
+
   if (showQuiz) {
     return <Quiz />;
   }
@@ -157,9 +184,15 @@ const MovieCards = () => {
       </ButtonGeneralContainer>
       {/* Anzeige der Filme basierend auf der Sortieroption */}
       {sortOption === 1 ? (
-        <MoviesByPhases sortedMovies={filteredMoviesByFavorites} />
+        <MoviesByPhases
+          sortedMovies={filteredMoviesByFavorites}
+          toggleFavoriteMovie={toggleFavoriteMovie}
+        />
       ) : (
-        <MoviesByChronologic sortedMovies={filteredMoviesByFavorites} />
+        <MoviesByChronologic
+          sortedMovies={filteredMoviesByFavorites}
+          toggleFavoriteMovie={toggleFavoriteMovie}
+        />
       )}
       <GlobalStyle />
     </>
