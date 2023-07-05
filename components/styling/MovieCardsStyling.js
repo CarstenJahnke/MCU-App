@@ -19,6 +19,12 @@ export const StyledMovieCard = styled.div`
   margin-bottom: 10px;
   width: 250px;
   margin-right: 10px; // Abstand zwischen den Filmen
+
+  .removing {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
 `;
 
 export const StyledMovieImage = styled.div`

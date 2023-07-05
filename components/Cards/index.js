@@ -10,6 +10,7 @@ import LoadingScreen from "../LoadingScreen";
 import React, { useState, useEffect } from "react";
 import useSWR from "swr";
 import { ButtonGeneralContainer } from "../Buttons/ButtonGeneralContainer";
+import Quiz from "../Quiz";
 
 // Funktion zum Abrufen der Daten von der API
 const fetcher = async (url) => {
@@ -42,7 +43,9 @@ const MovieCards = () => {
   // Zustandsvariablen
   const [sortOption, setSortOption] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [showFavorites, setShowFavorites] = useState(false); // Zustand zur Speicherung des Favoritenanzeigen-Status
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [favoriteMovies, setFavoriteMovies] = useState([]); // Zustand für favorisierte Filme
 
   // Effekt-Hook zum Setzen des Ladezustands
   useEffect(() => {
@@ -117,6 +120,41 @@ const MovieCards = () => {
     setShowFavorites(!showFavorites); // Toggle den Favoritenanzeigen-Status
   };
 
+  // Funktion zum Umschalten des Quiz anzeigen
+  const handleQuizButtonClick = () => {
+    setShowQuiz(true);
+  };
+
+  // Funktion zum Hinzufügen/Entfernen von Favoriten
+  const toggleFavoriteMovie = (movieId) => {
+    const favorites = localStorage.getItem("favorites")
+      ? JSON.parse(localStorage.getItem("favorites"))
+      : [];
+
+    if (favorites.includes(movieId)) {
+      const updatedFavorites = favorites.filter((id) => id !== movieId);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      setFavoriteMovies((prevFavorites) =>
+        prevFavorites.filter((movie) => movie.id !== movieId)
+      ); // Entferne den Film aus der favorisierten Filme-Liste
+    } else {
+      const updatedFavorites = [...favorites, movieId];
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      const movie = sortedMovies.find((movie) => movie.id === movieId);
+      setFavoriteMovies((prevFavorites) => [...prevFavorites, movie]); // Füge den Film zur favorisierten Filme-Liste hinzu
+    }
+
+    const updatedFavorites = localStorage.getItem("favorites")
+      ? JSON.parse(localStorage.getItem("favorites"))
+      : [];
+
+    setShowFavorites(updatedFavorites.length > 0);
+  };
+
+  if (showQuiz) {
+    return <Quiz />;
+  }
+
   // Filtern der Filme basierend auf den Favoriten
   const filteredMoviesByFavorites = showFavorites
     ? sortedMovies.filter((movie) => {
@@ -133,18 +171,28 @@ const MovieCards = () => {
         <ButtonGeneralStyle
           onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
         >
-          {sortOption === 1 ? "Chronologisch" : "Phasen"}
+          {sortOption === 1 ? "Chronologie" : "Phasen"}
         </ButtonGeneralStyle>
         {/* Button zum Umschalten der Favoritenanzeigen */}
         <ButtonGeneralStyle onClick={toggleFavorites}>
-          {showFavorites ? "Alle anzeigen" : "Favoriten"}
+          {showFavorites ? "Alle Filme" : "Favoriten"}
+        </ButtonGeneralStyle>
+        {/* Button zum Anzeigen des Quiz */}
+        <ButtonGeneralStyle onClick={handleQuizButtonClick}>
+          Quiz
         </ButtonGeneralStyle>
       </ButtonGeneralContainer>
       {/* Anzeige der Filme basierend auf der Sortieroption */}
       {sortOption === 1 ? (
-        <MoviesByPhases sortedMovies={filteredMoviesByFavorites} />
+        <MoviesByPhases
+          sortedMovies={filteredMoviesByFavorites}
+          toggleFavoriteMovie={toggleFavoriteMovie}
+        />
       ) : (
-        <MoviesByChronologic sortedMovies={filteredMoviesByFavorites} />
+        <MoviesByChronologic
+          sortedMovies={filteredMoviesByFavorites}
+          toggleFavoriteMovie={toggleFavoriteMovie}
+        />
       )}
       <GlobalStyle />
     </>
