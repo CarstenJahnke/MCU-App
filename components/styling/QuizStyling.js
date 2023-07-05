@@ -47,15 +47,15 @@ export const QuizCard = styled.div`
   margin-top: -10px;
 `;
 
-export const QuizText = css`
+const QuizText = css`
   color: ${colorGold};
-  font-size: 17px;
+  font-size: 20px;
   margin-bottom: 10px;
-  text-align: left;
+  text-align: center;
   ${textShadow};
 `;
 
-export const QuizStartText = styled.text`
+export const QuizStartText = styled.div`
   ${QuizText};
 `;
 
@@ -176,33 +176,32 @@ export const QuizResult = styled.div`
 
 export const QuizResultHeadline = styled.div`
   color: #ffb833;
-  font-size: 25px;
-  margin-top: 30px;
+  font-size: 38px;
+  margin-top: 20px;
   margin-bottom: 10px;
   text-align: center;
-  ${textShadow};
 `;
 
 export const QuizResultCorrect = styled.text`
   color: ${colorGold};
-  font-size: 17px;
+  font-size: 20px;
   margin-bottom: 10px;
-  text-align: left;
-  ${textShadow};
 `;
 
 export const QuizResultTime = styled.text`
   color: ${colorGold};
-  font-size: 17px;
-  margin-bottom: 10px;
-  text-align: left;
-  ${textShadow};
+  font-size: 18px;
+  margin-bottom: 20px;
 `;
 
 export const QuizResultHighscore = styled.text`
   color: ${colorGold};
   font-size: 17px;
   margin-bottom: 10px;
-  text-align: left;
-  ${textShadow};
+`;
+
+export const QuizRating = styled.text`
+  color: ${colorGold};
+  font-size: 20px;
+  margin-bottom: 10px;
 `;

@@ -10,6 +10,7 @@ import {
   QuizHeadline,
   QuizLogo,
   QuizNumber,
+  QuizRating,
   QuizResult,
   QuizResultCorrect,
   QuizResultHeadline,
@@ -24,6 +25,7 @@ import { toast, ToastContainer } from "react-toastify";
 import React, { useState, useEffect } from "react";
 import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
 import Phases from "../Cards";
+import getResultMessage from "./ResultMessage";
 
 const QuizComponent = () => {
   // State-Variablen für den Quiz-Zustand und die Fragen
@@ -118,20 +120,32 @@ const QuizComponent = () => {
     }
   }, [countdown, showQuiz]);
 
-  // Funktion zum Mischen eines Arrays
+  // #########################################################
+  // ################### Mischen der Fragen ##################
+  // #########################################################
   const shuffleArray = (array) => {
+    // Erstelle eine Kopie des Eingabe-Arrays
     const shuffledArray = [...array];
+
+    // Iteriere rückwärts über das Array
     for (let i = shuffledArray.length - 1; i > 0; i--) {
+      // Generiere eine zufällige Indexposition zwischen 0 und i (einschließlich)
       const j = Math.floor(Math.random() * (i + 1));
+
+      // Vertausche die Elemente an den Positionen i und j im Array
       [shuffledArray[i], shuffledArray[j]] = [
         shuffledArray[j],
         shuffledArray[i],
       ];
     }
+
+    // Gib das gemischte Array zurück
     return shuffledArray;
   };
 
-  // Highscore aus dem LocalStorage laden
+  // #########################################################
+  // ######### Highscore aus dem LocalStorage laden ##########
+  // #########################################################
   useEffect(() => {
     const storedHighscore = loadHighscoreFromLocalStorage();
     if (storedHighscore) {
@@ -139,6 +153,9 @@ const QuizComponent = () => {
     }
   }, []);
 
+  // #########################################################
+  // ################### Quiz Funktionen #####################
+  // #########################################################
   // Funktion zum Starten des Quiz
   const handleStartQuiz = () => {
     setQuizStarted(true); // Quiz wird gestartet
@@ -178,6 +195,9 @@ const QuizComponent = () => {
     }
   };
 
+  // #########################################################
+  // ################# Antwort Funktionen ####################
+  // #########################################################
   // Funktion zum Klicken auf eine Antwortoption
   const handleAnswerClick = (answerIndex) => {
     // Wenn bereits eine Antwort ausgewählt wurde, wird nichts ausgeführt
@@ -229,10 +249,8 @@ const QuizComponent = () => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
           >
-            <QuizTitle>MCU Quiz</QuizTitle>
-            <QuizStartText>
-              Test jetzt dein Wissen in dem Marvelous Cinematic Unisearch Quiz
-            </QuizStartText>
+            <QuizTitle>Bist du ein echter Marvel Held?</QuizTitle>
+            <QuizStartText>Teste dein Wissen mit dem MCU-Quiz</QuizStartText>
             <QuizButtonContainer>
               <QuizButtonStart onClick={handleStartQuiz}>Start</QuizButtonStart>
             </QuizButtonContainer>
@@ -317,6 +335,7 @@ const QuizComponent = () => {
                   Highscore: {highscore} Sekunden
                 </QuizResultHighscore>
               )}
+              <QuizRating>{getResultMessage(correctAnswers)}</QuizRating>
               <QuizButtonStart onClick={handleRestartQuiz}>
                 Neuer Versuch
               </QuizButtonStart>
