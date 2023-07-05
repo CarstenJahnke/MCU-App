@@ -1,14 +1,14 @@
 const getResultMessage = (score) => {
   if (score === 0) {
-    return "Du weißt nichts";
+    return "😳 ähm.. bist du eher DC Fan? 😱";
   } else if (score >= 1 && score <= 3) {
-    return "Du solltest mehr MCU Filme schauen";
+    return "🚀 Intelligent wie Tony Stark 😎";
   } else if (score >= 4 && score <= 6) {
-    return "Da geht noch was!";
+    return "🧬 So smart wie Shuri 👩🏾‍🔬";
   } else if (score >= 7 && score <= 9) {
-    return "Fast!";
+    return "👀 Du verfolgst alles wie der Watcher! 🔮";
   } else if (score === 10) {
-    return "Du bist ein echter Nerd!";
+    return "👓 Stan Lee lebt in Dir! 👴🏻";
   }
 };
 
