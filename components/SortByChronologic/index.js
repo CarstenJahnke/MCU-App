@@ -2,8 +2,6 @@ import { FavSeenButton } from "../Buttons/FavSeenContainer";
 import { getMovieYearFromTimeline } from "../Cards";
 import {
   MovieCardsList,
-  MovieCardsListRandom,
-  MovieCardsListRandomTitle,
   StyledMovieCard,
   StyledMovieTitle,
   StyledNoFavoritesHeadline,
@@ -17,7 +15,10 @@ import Link from "next/link";
 import React from "react";
 import SeenButton from "../Buttons/FavSeenContainer/ButtonSeen";
 
-export const MoviesByChronologic = ({ sortedMovies }) => {
+export const MoviesByChronologic = ({
+  sortedMovies,
+  updateFavouriteMoviesDisplay,
+}) => {
   const [seenMovies, setSeenMovies] = useState([]);
 
   useEffect(() => {
@@ -46,6 +47,11 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
     );
   }
 
+  function showUpdatedFavoriteMovies() {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavoriteMovies(favorites);
+  }
+
   return (
     <MovieCardsList
       as={motion.div}
@@ -63,7 +69,11 @@ export const MoviesByChronologic = ({ sortedMovies }) => {
           transition={{ delay: index * 0.2 }}
         >
           <FavSeenButton>
-            <FavoriteButton movieId={movie.id} movieTitle={movie.title} />
+            <FavoriteButton
+              movieId={movie.id}
+              movieTitle={movie.title}
+              updateFavouriteMoviesDisplay={updateFavouriteMoviesDisplay}
+            />
             <SeenButton
               movieId={movie.id}
               movieTitle={movie.title}
