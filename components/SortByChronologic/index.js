@@ -53,12 +53,7 @@ export const MoviesByChronologic = ({
   }
 
   return (
-    <MovieCardsList
-      as={motion.div}
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -50 }}
-    >
+    <MovieCardsList>
       {sortedMovies.map((movie, index) => (
         <StyledMovieCard
           key={movie.id}
@@ -66,7 +61,7 @@ export const MoviesByChronologic = ({
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          transition={{ delay: index * 0.2 }}
+          transition={{ delay: index * 0.0 }}
         >
           <FavSeenButton>
             <FavoriteButton
