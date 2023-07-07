@@ -80,10 +80,8 @@ const MovieCards = () => {
   }
 
   if (!sortedMovies) {
-    return <h1 style={{ zIndex: "200" }}>Loading still lol.</h1>;
+    return <StyledText>Still Loading.</StyledText>;
   }
-
-  console.log(sortedMovies);
 
   // JSX-Elemente der MovieCards-Komponente
   return (
