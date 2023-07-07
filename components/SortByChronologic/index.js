@@ -92,7 +92,7 @@ export const MoviesByChronologic = ({
                 />
               </StyledMovieImage>
               <StyledMovieTitle>
-                {movie.title} {getMovieYearFromTimeline(movie, 1)}
+                {movie.title} {getMovieYearFromTimeline(movie, 2)}
               </StyledMovieTitle>
             </>
           </Link>

@@ -65,7 +65,7 @@ const MovieCards = () => {
 
   useEffect(() => {
     handleSetSortMovies();
-  }, [movies]);
+  }, [movies, sortOption]);
 
   useEffect(() => {
     updateFavouriteMoviesDisplay();
@@ -80,7 +80,7 @@ const MovieCards = () => {
   }
 
   if (!sortedMovies) {
-    return <h1 style={{ zIndex: "200" }}>Loading still lol.</h1>;
+    return <StyledText>Still Loading.</StyledText>;
   }
 
   // JSX-Elemente der MovieCards-Komponente
@@ -93,7 +93,9 @@ const MovieCards = () => {
           {/* Button zum Umschalten der Sortieroption */}
           <ButtonGeneralContainer>
             <ButtonGeneralStyle
-              onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
+              onClick={() => {
+                setSortOption(sortOption === 1 ? 2 : 1);
+              }}
             >
               {sortOption === 1 ? "Chronologie" : "Phasen"}
             </ButtonGeneralStyle>
