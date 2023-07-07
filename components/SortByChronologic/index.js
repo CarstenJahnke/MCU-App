@@ -66,7 +66,6 @@ export const MoviesByChronologic = ({
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          transition={{ delay: index * 0.2 }}
         >
           <FavSeenButton>
             <FavoriteButton
