@@ -18,7 +18,11 @@ const CustomProgressBar = ({ progress }) => {
 };
 
 // FavoriteButton-Komponente
-const FavoriteButton = ({ movieId, movieTitle }) => {
+const FavoriteButton = ({
+  movieId,
+  movieTitle,
+  updateFavouriteMoviesDisplay,
+}) => {
   // Zustand für den Favoriten-Status
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -40,6 +44,7 @@ const FavoriteButton = ({ movieId, movieTitle }) => {
       const updatedFavorites = favorites.filter((id) => id !== movieId);
       localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       toast.warning(`"${movieTitle}" wurde von den Favoriten entfernt`);
+      updateFavouriteMoviesDisplay();
     } else {
       // Hinzufügen der movieId zu den Favoriten
       favorites.push(movieId);

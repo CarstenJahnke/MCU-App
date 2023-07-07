@@ -18,7 +18,10 @@ import Link from "next/link";
 import React from "react";
 import SeenButton from "../Buttons/FavSeenContainer/ButtonSeen";
 
-export const MoviesByPhases = ({ sortedMovies }) => {
+export const MoviesByPhases = ({
+  sortedMovies,
+  updateFavouriteMoviesDisplay,
+}) => {
   const [seenMovies, setSeenMovies] = useState([]);
 
   useEffect(() => {
@@ -94,6 +97,9 @@ export const MoviesByPhases = ({ sortedMovies }) => {
                     <FavoriteButton
                       movieId={movie.id}
                       movieTitle={movie.title}
+                      updateFavouriteMoviesDisplay={
+                        updateFavouriteMoviesDisplay
+                      }
                     />
                     <SeenButton
                       movieId={movie.id}

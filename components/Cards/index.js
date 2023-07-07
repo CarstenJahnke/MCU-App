@@ -46,6 +46,13 @@ const MovieCards = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [favoriteMovies, setFavoriteMovies] = useState([]); // Zustand für favorisierte Filme
+  const [filteredMoviesByFavourites, setFilteredMoviesByFavourites] = useState(
+    []
+  );
+  const [sortedMovies, setSortedMovies] = useState(
+    // Sortieren der Filme basierend auf der gewählten Option
+    []
+  );
 
   // Effekt-Hook zum Setzen des Ladezustands
   useEffect(() => {
@@ -54,7 +61,15 @@ const MovieCards = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  });
+
+  useEffect(() => {
+    handleSetSortMovies();
+  }, [movies]);
+
+  useEffect(() => {
+    updateFavouriteMoviesDisplay();
+  }, [sortedMovies, showFavorites]);
 
   if (error) {
     return <StyledText>Daten konnten nicht abgerufen werden.</StyledText>;
@@ -64,69 +79,78 @@ const MovieCards = () => {
     return <LoadingScreen />;
   }
 
-  // Filtern der Filme basierend auf dem Veröffentlichungsjahr
-  const filteredMovies = movies
-    ? movies.filter(
-        (movie) => new Date(movie.release_date).getFullYear() >= 2008
-      )
-    : [];
+  if (!sortedMovies) {
+    return <h1 style={{ zIndex: "200" }}>Loading still lol.</h1>;
+  }
 
-  // Sortieren der Filme nach Phasen
-  const sortedMoviesByPhase = [];
-  mcuPhases.forEach((phase) => {
-    const moviesInPhase = filteredMovies
-      .filter((movie) => {
-        const releaseYear = new Date(movie.release_date).getFullYear();
-        return releaseYear >= phase.startYear && releaseYear <= phase.endYear;
-      })
-      .sort((a, b) => {
-        const releaseYearA = new Date(a.release_date).getFullYear();
-        const releaseYearB = new Date(b.release_date).getFullYear();
-        return releaseYearA - releaseYearB;
-      });
+  // JSX-Elemente der MovieCards-Komponente
+  return (
+    <>
+      {showQuiz ? (
+        <Quiz />
+      ) : (
+        <>
+          {/* Button zum Umschalten der Sortieroption */}
+          <ButtonGeneralContainer>
+            <ButtonGeneralStyle
+              onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
+            >
+              {sortOption === 1 ? "Chronologie" : "Phasen"}
+            </ButtonGeneralStyle>
+            {/* Button zum Umschalten der Favoritenanzeigen */}
+            <ButtonGeneralStyle onClick={toggleFavorites}>
+              {showFavorites ? "Alle Filme" : "Favoriten"}
+            </ButtonGeneralStyle>
+            {/* Button zum Anzeigen des Quiz */}
+            <ButtonGeneralStyle onClick={handleQuizButtonClick}>
+              Quiz
+            </ButtonGeneralStyle>
+          </ButtonGeneralContainer>
+          {/* Anzeige der Filme basierend auf der Sortieroption */}
+          {sortOption === 1 ? (
+            <MoviesByPhases
+              sortedMovies={filteredMoviesByFavourites}
+              toggleFavoriteMovie={toggleFavoriteMovie}
+              updateFavouriteMoviesDisplay={updateFavouriteMoviesDisplay}
+            />
+          ) : (
+            <MoviesByChronologic
+              sortedMovies={filteredMoviesByFavourites}
+              toggleFavoriteMovie={toggleFavoriteMovie}
+              updateFavouriteMoviesDisplay={updateFavouriteMoviesDisplay}
+            />
+          )}
+          <GlobalStyle />
+        </>
+      )}
+    </>
+  );
 
-    sortedMoviesByPhase.push(...moviesInPhase);
-  });
-
-  // Sortieren der Filme chronologisch
-  const sortedMoviesChronological = sortedMoviesByPhase.sort((a, b) => {
-    const movieATitle = a.title;
-    const movieBTitle = b.title;
-
-    const movieA = mcuTimeline.find((movie) =>
-      movieATitle.includes(movie.title)
+  function updateFavouriteMoviesDisplay() {
+    setFilteredMoviesByFavourites(
+      (() => {
+        if (showFavorites) {
+          return sortedMovies.filter((movie) => {
+            const movieId = movie.id.toString();
+            const favoriteMovies = localStorage
+              .getItem("favorites")
+              ?.includes(movieId);
+            return favoriteMovies;
+          });
+        } else {
+          return sortedMovies;
+        }
+      })()
     );
-    const movieB = mcuTimeline.find((movie) =>
-      movieBTitle.includes(movie.title)
-    );
-
-    if (movieA && movieB) {
-      return movieA.year.localeCompare(movieB.year);
-    } else if (movieA) {
-      return -1;
-    } else if (movieB) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
-
-  // Sortieren der Filme basierend auf der gewählten Option
-  const sortedMovies =
-    sortOption === 1 ? sortedMoviesByPhase : sortedMoviesChronological;
-
-  // Funktion zum Umschalten der Favoritenanzeigen
-  const toggleFavorites = () => {
-    setShowFavorites(!showFavorites); // Toggle den Favoritenanzeigen-Status
-  };
+  }
 
   // Funktion zum Umschalten des Quiz anzeigen
-  const handleQuizButtonClick = () => {
+  function handleQuizButtonClick() {
     setShowQuiz(true);
-  };
+  }
 
   // Funktion zum Hinzufügen/Entfernen von Favoriten
-  const toggleFavoriteMovie = (movieId) => {
+  function toggleFavoriteMovie(movieId) {
     const favorites = localStorage.getItem("favorites")
       ? JSON.parse(localStorage.getItem("favorites"))
       : [];
@@ -149,54 +173,77 @@ const MovieCards = () => {
       : [];
 
     setShowFavorites(updatedFavorites.length > 0);
-  };
-
-  if (showQuiz) {
-    return <Quiz />;
   }
 
-  // Filtern der Filme basierend auf den Favoriten
-  const filteredMoviesByFavorites = showFavorites
-    ? sortedMovies.filter((movie) => {
-        const movieId = movie.id.toString();
-        return localStorage.getItem("favorites")?.includes(movieId);
-      })
-    : sortedMovies;
+  // Funktion zum Umschalten der Favoritenanzeigen
+  function toggleFavorites() {
+    setShowFavorites(!showFavorites); // Toggle den Favoritenanzeigen-Status
+  }
 
-  // JSX-Elemente der MovieCards-Komponente
-  return (
-    <>
-      {/* Button zum Umschalten der Sortieroption */}
-      <ButtonGeneralContainer>
-        <ButtonGeneralStyle
-          onClick={() => setSortOption(sortOption === 1 ? 2 : 1)}
-        >
-          {sortOption === 1 ? "Chronologie" : "Phasen"}
-        </ButtonGeneralStyle>
-        {/* Button zum Umschalten der Favoritenanzeigen */}
-        <ButtonGeneralStyle onClick={toggleFavorites}>
-          {showFavorites ? "Alle Filme" : "Favoriten"}
-        </ButtonGeneralStyle>
-        {/* Button zum Anzeigen des Quiz */}
-        <ButtonGeneralStyle onClick={handleQuizButtonClick}>
-          Quiz
-        </ButtonGeneralStyle>
-      </ButtonGeneralContainer>
-      {/* Anzeige der Filme basierend auf der Sortieroption */}
-      {sortOption === 1 ? (
-        <MoviesByPhases
-          sortedMovies={filteredMoviesByFavorites}
-          toggleFavoriteMovie={toggleFavoriteMovie}
-        />
-      ) : (
-        <MoviesByChronologic
-          sortedMovies={filteredMoviesByFavorites}
-          toggleFavoriteMovie={toggleFavoriteMovie}
-        />
-      )}
-      <GlobalStyle />
-    </>
-  );
+  function getSortedMoviesByPhase() {
+    let filteredMovies;
+    // Filtern der Filme basierend auf dem Veröffentlichungsjahr
+    if (movies) {
+      filteredMovies = movies.filter(
+        (movie) => new Date(movie.release_date).getFullYear() >= 2008
+      );
+    } else {
+      filteredMovies = [];
+    }
+
+    // Sortieren der Filme nach Phasen
+    const sortedMoviesByPhase = [];
+    mcuPhases.forEach((phase) => {
+      const moviesInPhase = filteredMovies
+        .filter((movie) => {
+          const releaseYear = new Date(movie.release_date).getFullYear();
+          return releaseYear >= phase.startYear && releaseYear <= phase.endYear;
+        })
+        .sort((a, b) => {
+          const releaseYearA = new Date(a.release_date).getFullYear();
+          const releaseYearB = new Date(b.release_date).getFullYear();
+          return releaseYearA - releaseYearB;
+        });
+
+      sortedMoviesByPhase.push(...moviesInPhase);
+    });
+    return sortedMoviesByPhase;
+  }
+
+  function getSortedMoviesChronologically() {
+    // Sortieren der Filme chronologisch
+    const sortedMoviesChronological = getSortedMoviesByPhase().sort((a, b) => {
+      const movieATitle = a.title;
+      const movieBTitle = b.title;
+
+      const movieA = mcuTimeline.find((movie) =>
+        movieATitle.includes(movie.title)
+      );
+      const movieB = mcuTimeline.find((movie) =>
+        movieBTitle.includes(movie.title)
+      );
+
+      if (movieA && movieB) {
+        return movieA.year.localeCompare(movieB.year);
+      } else if (movieA) {
+        return -1;
+      } else if (movieB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    return sortedMoviesChronological;
+  }
+
+  function handleSetSortMovies() {
+    setSortedMovies(
+      sortOption === 1
+        ? getSortedMoviesByPhase()
+        : getSortedMoviesChronologically()
+    );
+  }
 };
 
 export default MovieCards;
