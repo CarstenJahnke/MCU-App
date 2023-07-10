@@ -21,11 +21,12 @@ import {
   QuizTimer,
   QuizTitle,
 } from "../styling/QuizStyling";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
-import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
 import Phases from "../Cards";
 import getResultMessage from "./ResultMessage";
+import { StyledToastContainer } from "../ToastifyMessage/styling";
+import { ProgressBar } from "react-toastify";
 
 const QuizComponent = () => {
   // State-Variablen für den Quiz-Zustand und die Fragen
@@ -194,6 +195,15 @@ const QuizComponent = () => {
       setHighscore(elapsedTime);
     }
   };
+  // Benutzerdefinierte Fortschrittsbalken-Komponente
+  const CustomProgressBar = ({ progress }) => {
+    return (
+      <ProgressBar
+        {...progress}
+        className="Toastify__progress-bar--controlled"
+      ></ProgressBar>
+    );
+  };
 
   // #########################################################
   // ################# Antwort Funktionen ####################
@@ -241,7 +251,19 @@ const QuizComponent = () => {
       >
         <QuizLogo>Quiz</QuizLogo>
       </motion.div>
-      <ToastContainer position="top-right" />
+      <StyledToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        progressClassName="Toastify__progress-bar--controlled"
+        components={{ ProgressBar: CustomProgressBar }}
+      />
       {!quizStarted ? (
         <>
           <motion.div
