@@ -21,11 +21,12 @@ import {
   QuizTimer,
   QuizTitle,
 } from "../styling/QuizStyling";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import React, { useState, useEffect } from "react";
-import ButtonGeneralStyle from "../Buttons/ButtonGeneralStyle";
 import Phases from "../Cards";
 import getResultMessage from "./ResultMessage";
+import { StyledToastContainer } from "../ToastifyMessage/styling";
+import { ProgressBar } from "react-toastify";
 
 const QuizComponent = () => {
   // State-Variablen für den Quiz-Zustand und die Fragen
@@ -194,6 +195,15 @@ const QuizComponent = () => {
       setHighscore(elapsedTime);
     }
   };
+  // Benutzerdefinierte Fortschrittsbalken-Komponente
+  const CustomProgressBar = ({ progress }) => {
+    return (
+      <ProgressBar
+        {...progress}
+        className="Toastify__progress-bar--controlled"
+      ></ProgressBar>
+    );
+  };
 
   // #########################################################
   // ################# Antwort Funktionen ####################
@@ -208,12 +218,12 @@ const QuizComponent = () => {
       if (answerIndex === currentQuestion.correctAnswerIndex) {
         // Wenn die ausgewählte Antwort korrekt ist
         setCorrectAnswers(correctAnswers + 1); // Inkrementiere die Anzahl der richtigen Antworten
-        toast.success("Richtige Antwort! 🚀", { autoClose: 2000 }); // Zeige Erfolgsmeldung
+        toast.success("Richtige Antwort 🚀", { autoClose: 2000 }); // Zeige Erfolgsmeldung
       } else {
         toast.error(
-          `Falsch! Richtige wäre gewesen: "${
+          `Falsch: ${
             currentQuestion.answers[currentQuestion.correctAnswerIndex]
-          }" 👍`,
+          }`,
           { autoClose: 2000 }
         ); // Zeige Fehlermeldung mit der richtigen Antwort
       }
@@ -241,7 +251,19 @@ const QuizComponent = () => {
       >
         <QuizLogo>Quiz</QuizLogo>
       </motion.div>
-      <ToastContainer position="top-right" />
+      <StyledToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={true}
+        newestOnTop
+        closeOnClick
+        rtl={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        progressClassName="Toastify__progress-bar--controlled"
+        components={{ ProgressBar: CustomProgressBar }}
+      />
       {!quizStarted ? (
         <>
           <motion.div
