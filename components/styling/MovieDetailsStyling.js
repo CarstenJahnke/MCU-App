@@ -27,6 +27,7 @@ export const StyledText = css`
 export const StyledHeadline = styled.div`
   color: #ffb833;
   font-size: 20px;
+  margin-bottom: 10px;
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 `;
@@ -40,6 +41,7 @@ export const StyledMovieCards = styled.div`
 
 export const StyledMovieImageCard = styled.div`
   ${StyledCard}
+  padding: 1px;
 `;
 
 export const StyledMovieImage = styled.div`
@@ -53,14 +55,23 @@ export const StyledMovieImage = styled.div`
 export const StyledImageWidth = 300;
 export const StyledImageHeight = 425;
 
+export const StyledTaglineCard = styled.div`
+  ${StyledCard}
+  ${StyledText}
+  font-style: italic;
+  padding: 6%;
+`;
+
 export const StyledMovieDescription = styled.div`
   ${StyledCard}
   ${StyledText}
+  padding: 6%;
 `;
 
 export const StyledMovieCharacters = styled.ul`
   ${StyledCard}
   ${StyledText}
+  padding: 6%;
 `;
 
 export const StyledMovieCharactersList = styled.li`
@@ -82,7 +93,23 @@ export const HeadingStyledContainer = styled.div`
   text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
 `;
 
-export const StyledMovieReview = styled.ul`
+export const StyledMovieCardReview = styled.div`
   ${StyledCard}
   ${StyledText}
+  padding: 6%;
 `;
+
+export const StyledMovieReview = styled.div`
+  ${StyledText}
+  text-align: center;
+  margin-bottom: 0px;
+`;
+
+export const StyledSquareIcon = styled.div`
+  margin-top: 16px;
+  font-size: 10px;
+  float: right;
+`;
+
+export const StyledSquareIconImageWidth = 12;
+export const StyledSquareIconImageHeight = 12;
