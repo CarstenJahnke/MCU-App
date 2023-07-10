@@ -218,12 +218,12 @@ const QuizComponent = () => {
       if (answerIndex === currentQuestion.correctAnswerIndex) {
         // Wenn die ausgewählte Antwort korrekt ist
         setCorrectAnswers(correctAnswers + 1); // Inkrementiere die Anzahl der richtigen Antworten
-        toast.success("Richtige Antwort! 🚀", { autoClose: 2000 }); // Zeige Erfolgsmeldung
+        toast.success("Richtige Antwort 🚀", { autoClose: 2000 }); // Zeige Erfolgsmeldung
       } else {
         toast.error(
-          `Falsch! Richtige wäre gewesen: "${
+          `Falsch: ${
             currentQuestion.answers[currentQuestion.correctAnswerIndex]
-          }" 👍`,
+          }`,
           { autoClose: 2000 }
         ); // Zeige Fehlermeldung mit der richtigen Antwort
       }
@@ -253,8 +253,8 @@ const QuizComponent = () => {
       </motion.div>
       <StyledToastContainer
         position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
+        autoClose={2000}
+        hideProgressBar={true}
         newestOnTop
         closeOnClick
         rtl={true}
