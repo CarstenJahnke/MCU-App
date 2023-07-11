@@ -215,7 +215,7 @@ const MovieDetails = () => {
                   width={StyledSquareIconImageWidth}
                   height={StyledSquareIconImageHeight}
                 ></Image>{" "}
-                {Math.round(movie.vote_average * 10) / 10} {"("}
+                {Math.round(movie.vote_average * 10) / 10} {" / 10 ("}
                 {movie.vote_count}
                 {")"}
               </StyledMovieReview>
