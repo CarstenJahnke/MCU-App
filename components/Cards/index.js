@@ -15,6 +15,7 @@ import Quiz from "../Quiz";
 // Funktion zum Abrufen der Daten von der API
 const fetcher = async (url) => {
   const response = await fetch(url);
+      console.log('Fetched Movies:', data.items);
   const data = await response.json();
   return data.items;
 };
