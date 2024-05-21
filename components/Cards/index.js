@@ -37,7 +37,7 @@ export const getMovieYearFromTimeline = (movie, option) => {
 const MovieCards = () => {
   // Verwendung von useSWR-Hook zum Abrufen der Daten von der API
   const { data: movies, error } = useSWR(
-    `https://api.themoviedb.org/3/list/12179?api_key=${apikey}&language=de`,
+    `https://api.themoviedb.org/3/list/8258181?api_key=${apikey}&language=de`,
     fetcher
   );
 
