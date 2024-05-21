@@ -206,8 +206,7 @@ const MovieCards = () => {
           const releaseYearB = new Date(b.release_date).getFullYear();
           return releaseYearA - releaseYearB;
         });
-      console.log(`Phase ${phase.phase}:`, moviesInPhase); // Debugging-Statement
-
+      
       sortedMoviesByPhase.push(...moviesInPhase);
     });
     return sortedMoviesByPhase;
