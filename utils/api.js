@@ -3,7 +3,7 @@ import { apikey } from "../pages/_app";
 export async function fetchMovies() {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/list/12179?api_key=${apikey}&language=de`
+      `https://api.themoviedb.org/3/list/84979?api_key=${apikey}&language=de`
     );
     const data = await response.json();
     return data.items || []; // Rückgabe einer leeren Liste, wenn keine Daten vorhanden sind
